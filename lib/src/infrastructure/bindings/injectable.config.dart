@@ -15,9 +15,10 @@ import 'package:injectable/injectable.dart' as _i2;
 import 'package:shared_preferences/shared_preferences.dart' as _i10;
 
 import '../../../lib.dart' as _i3;
-import '../../application/use_cases/authentication_use_cases.dart' as _i14;
+import '../../application/use_cases/authentication_use_cases.dart' as _i15;
 import '../../presentation/features/authentication/controllers/authentication_controller.dart'
     as _i8;
+import '../cache/cache_service.dart' as _i14;
 import '../http/banner/custom_banner_service.dart' as _i4;
 import '../http/cache/cache_token_repository.dart' as _i12;
 import '../http/cache/cache_validador_service.dart' as _i13;
@@ -25,7 +26,7 @@ import '../http/dio/dio_client.dart' as _i7;
 import '../http/dio/exceptions.dart' as _i6;
 import '../http/dio/interceptors.dart' as _i11;
 import '../services/http_partner_authentication_service.dart' as _i9;
-import 'dependencies.dart' as _i15;
+import 'dependencies.dart' as _i16;
 
 extension GetItInjectableX on _i1.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -53,17 +54,18 @@ extension GetItInjectableX on _i1.GetIt {
       preResolve: true,
     );
     gh.factory<_i11.TokenInterceptor>(() => _i11.TokenInterceptor());
-    gh.factory<_i3.TokenRepository>(
-        () => _i12.CacheTokenRepository(gh<_i10.SharedPreferences>()));
+    gh.factory<_i3.TokenRepository>(() => _i12.CacheTokenRepository());
     gh.factory<_i11.ValidatorInterceptor>(() => _i11.ValidatorInterceptor());
     gh.singleton<_i3.ValidatorService>(_i13.CacheValidatorService());
-    gh.factory<_i14.GetPartnerUseCase>(
-        () => _i14.GetPartnerUseCase(gh<_i3.PartnerAuthenticationService>()));
-    gh.factory<_i14.LoginUseCase>(() => _i14.LoginUseCase(
+    gh.lazySingleton<_i14.CacheService>(
+        () => _i14.CacheServiceImpl(gh<_i10.SharedPreferences>()));
+    gh.factory<_i15.GetPartnerUseCase>(
+        () => _i15.GetPartnerUseCase(gh<_i3.PartnerAuthenticationService>()));
+    gh.factory<_i15.LoginUseCase>(() => _i15.LoginUseCase(
           gh<_i3.PartnerAuthenticationService>(),
           gh<_i3.TokenRepository>(),
         ));
-    gh.factory<_i14.LogoutUseCase>(() => _i14.LogoutUseCase(
+    gh.factory<_i15.LogoutUseCase>(() => _i15.LogoutUseCase(
           gh<_i3.PartnerAuthenticationService>(),
           gh<_i3.TokenRepository>(),
         ));
@@ -71,6 +73,6 @@ extension GetItInjectableX on _i1.GetIt {
   }
 }
 
-class _$DioModule extends _i15.DioModule {}
+class _$DioModule extends _i16.DioModule {}
 
-class _$SharedPreferencesModule extends _i15.SharedPreferencesModule {}
+class _$SharedPreferencesModule extends _i16.SharedPreferencesModule {}

@@ -1,30 +1,29 @@
 import 'package:club_valledupar_app/lib.dart';
 import 'package:injectable/injectable.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 @Injectable(as: TokenRepository)
 class CacheTokenRepository implements TokenRepository {
-  final SharedPreferences _sharedPreferences;
-
-  const CacheTokenRepository(this._sharedPreferences);
+  final CacheService _cacheService = getIt();
 
   @override
   Future<void> deleteToken() {
-    return _sharedPreferences.remove('token');
+    return _cacheService.delete('token');
   }
 
   @override
   Future<String?> getToken() {
-    return Future.value(_sharedPreferences.getString('token'));
+    return _cacheService.read('token');
   }
 
   @override
   Future<bool> hasToken() {
-    return Future.value(_sharedPreferences.getKeys().contains('token'));
+    return _cacheService
+        .read('token')
+        .then((value) => value?.isNotEmpty ?? false);
   }
 
   @override
   Future<void> persistToken(String token) {
-    return _sharedPreferences.setString('token', token);
+    return _cacheService.save('token', token);
   }
 }
