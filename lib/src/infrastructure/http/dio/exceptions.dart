@@ -1,0 +1,55 @@
+import 'package:club_valledupar_app/lib.dart';
+import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
+
+@Injectable(as: HandlerExceptionService)
+class DioHandlerExcepton implements HandlerExceptionService {
+  final BannerService _bannerService = getIt();
+  Map<int, BannerData> codes = {
+    401: BannerData(
+      title: "No autorizado",
+      message: "No tienes permisos para acceder a este recurso",
+      type: BannerType.warning,
+    ),
+    403: BannerData(
+      title: "Prohibido",
+      message: "No tienes permisos para acceder a este recurso",
+      type: BannerType.warning,
+    ),
+    404: BannerData(
+      title: "No encontrado",
+      message: "No se ha encontrado el recurso solicitado",
+      type: BannerType.error,
+    ),
+    422: BannerData(
+      title: "Datos incorrectos",
+      message: "Los datos ingresados no son correctos",
+      type: BannerType.warning,
+    ),
+    500: BannerData(
+      title: "Error interno",
+      message: "Ha ocurrido un error interno en el servidor",
+      type: BannerType.error,
+    ),
+  };
+
+  @override
+  void handlerException(Object exception, StackTrace stack) {
+    if (exception is DioException &&
+        exception.type == DioExceptionType.badResponse) {
+      final data = codes[exception.response!.statusCode];
+      if (data != null) {
+        _bannerService.showBanner(data);
+      }
+    }
+
+    if (exception is DioException &&
+        exception.type == DioExceptionType.connectionError) {
+      _bannerService.showBanner(BannerData(
+        title: "Error de conexión",
+        message: "No se ha podido conectar con el servidor",
+        type: BannerType.error,
+      ));
+    }
+  }
+}
