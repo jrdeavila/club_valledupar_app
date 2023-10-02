@@ -7,8 +7,8 @@ class DioHandlerExcepton implements HandlerExceptionService {
   final BannerService _bannerService = getIt();
   Map<int, BannerData> codes = {
     401: BannerData(
-      title: "No autorizado",
-      message: "No tienes permisos para acceder a este recurso",
+      title: "No autenticado",
+      message: "Debes iniciar sesión para acceder a este recurso",
       type: BannerType.warning,
     ),
     403: BannerData(
@@ -24,7 +24,7 @@ class DioHandlerExcepton implements HandlerExceptionService {
     422: BannerData(
       title: "Datos incorrectos",
       message: "Los datos ingresados no son correctos",
-      type: BannerType.warning,
+      type: BannerType.error,
     ),
     500: BannerData(
       title: "Error interno",
