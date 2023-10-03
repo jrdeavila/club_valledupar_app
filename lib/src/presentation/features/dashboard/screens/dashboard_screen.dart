@@ -154,7 +154,9 @@ class DashboardView extends StatelessWidget {
           DashboardCard(
             title: "Menu del Restaurante",
             image: "assets/img/cartas.webp",
-            onTap: () {},
+            onTap: () {
+              Get.toNamed(resturantRoute);
+            },
           ),
           DashboardCard(
             title: "Mis Pedidos",
