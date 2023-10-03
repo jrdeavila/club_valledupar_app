@@ -10,9 +10,33 @@ class SessionController extends GetxController {
   @override
   void onReady() {
     super.onReady();
+    ever(_partner, _onDataChanged);
+    _getPartner();
+  }
+
+  void _onDataChanged(Partner? partner) {
+    if (partner != null) {
+      Get.offAllNamed(dashboardRoute);
+    } else {
+      Get.offAllNamed(loginRoute);
+    }
+  }
+
+  void _getPartner() {
     final GetPartnerUseCase getPartnerUseCase = getIt();
     getPartnerUseCase.getPartner().then((value) {
       _partner.value = value;
+    });
+  }
+
+  void onLogin() {
+    _getPartner();
+  }
+
+  void onLogout() {
+    final LogoutUseCase logoutUseCase = getIt();
+    logoutUseCase.logout().then((value) {
+      _partner.value = null;
     });
   }
 }

@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
       theme: ColorPalete.themeData,
       getPages: [
         ...authPages,
+        ...dashboardPages,
       ],
       initialRoute: loginRoute,
       initialBinding: AppBindings(),

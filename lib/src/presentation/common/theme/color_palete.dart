@@ -14,7 +14,7 @@ abstract class ColorPalete {
     primary: Color.fromARGB(255, 118, 202, 70),
     secondary: Color.fromARGB(255, 202, 253, 63),
     tertiary: Color.fromARGB(255, 243, 234, 112),
-    surface: Color.fromARGB(255, 118, 202, 70),
+    surface: Color.fromARGB(255, 119, 119, 119),
     background: Color.fromARGB(255, 253, 253, 253),
     error: Color.fromARGB(255, 207, 100, 100),
     onPrimary: Color.fromARGB(255, 245, 245, 245),
@@ -27,14 +27,12 @@ abstract class ColorPalete {
 
   // Configuracion de la barra superior
   static final AppBarTheme appBarTheme = AppBarTheme(
-    backgroundColor: colorScheme.primary,
-    foregroundColor: colorScheme.onPrimary,
+    backgroundColor: colorScheme.onPrimary,
     elevation: 0,
-    centerTitle: true,
     titleTextStyle: const TextStyle(
-      fontSize: 20,
-      fontWeight: FontWeight.bold,
-    ),
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+        color: Color.fromARGB(255, 54, 56, 56)),
   );
 
   // Configuracion de los inputs

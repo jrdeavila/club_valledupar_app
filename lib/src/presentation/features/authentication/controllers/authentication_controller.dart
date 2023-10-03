@@ -30,9 +30,13 @@ class LoginCtrl extends GetxController {
 
   void submit() {
     _validatorService.deleteErrors();
-    loginUseCase.login(
+    loginUseCase
+        .login(
       _email.value,
       _password.value,
-    );
+    )
+        .then((value) {
+      Get.find<SessionController>().onLogin();
+    });
   }
 }
