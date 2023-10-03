@@ -3,19 +3,19 @@ import 'package:club_valledupar_app/lib.dart';
 typedef JSON = Map<String, dynamic>;
 
 MenuSection menuSectionFromJson(JSON json) => MenuSection(
-      id: json['id'],
+      id: json['id'].toString(),
       name: json['name'],
       description: json['description'],
       products: List<MenuProduct>.from(
-        json['menu_items'].map(menuProductFromJson),
-      ),
+        json['menu_items'].map((x) => menuProductFromJson(x)),
+      ).toList(),
     );
 
 MenuProduct menuProductFromJson(JSON json) => MenuProduct(
-      id: json['id'],
+      id: json['id'].toString(),
       name: json['name'],
       description: json['description'],
-      price: json['price'].toDouble(),
+      price: double.parse(json['price']),
       image: json['image'],
     );
 

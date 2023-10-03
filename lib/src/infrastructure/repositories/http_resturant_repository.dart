@@ -1,5 +1,7 @@
 import 'package:club_valledupar_app/lib.dart';
+import 'package:injectable/injectable.dart';
 
+@Injectable(as: RestaurantRepository)
 class HttpResturantRepository implements RestaurantRepository {
   final HttpClient _httpClient;
 
@@ -7,7 +9,7 @@ class HttpResturantRepository implements RestaurantRepository {
   @override
   Future<List<MenuSection>> getMenuSections() {
     return _httpClient
-        .get<List<JSON>>("/cartas")
-        .then((value) => menuSectionListFromJson(value));
+        .get<JSON>("/sections")
+        .then((value) => menuSectionListFromJson(value['data']));
   }
 }
