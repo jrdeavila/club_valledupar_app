@@ -27,6 +27,6 @@ class HttpPartnerAuthenticationService implements PartnerAuthenticationService {
 
   @override
   Future<void> logout() {
-    return _httpClient.post('/auth/logout');
+    return _httpClient.post<void>('/auth/logout');
   }
 }

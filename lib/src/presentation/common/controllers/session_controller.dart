@@ -36,6 +36,11 @@ class SessionController extends GetxController {
   void onLogout() {
     final LogoutUseCase logoutUseCase = getIt();
     logoutUseCase.logout().then((value) {
+      getIt<BannerService>().showBanner(BannerData(
+        title: "Sesión cerrada",
+        message: "Tu sesión ha sido cerrada correctamente",
+        type: BannerType.info,
+      ));
       _partner.value = null;
     });
   }

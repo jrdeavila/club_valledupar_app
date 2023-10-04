@@ -29,7 +29,7 @@ class LogoutUseCase {
   );
 
   Future<void> logout() async {
-    await _partnerAuthenticationService.logout();
+    _partnerAuthenticationService.logout();
     return _tokenRepository.deleteToken();
   }
 }
