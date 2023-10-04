@@ -13,71 +13,61 @@ class LoginScreen extends GetView<LoginCtrl> {
           children: [
             const LoginHeader(title: "Iniciar sesión"),
             Container(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Obx(() => LoginTextField(
+                padding: const EdgeInsets.all(20),
+                child: Obx(
+                  () => Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      LoginTextField(
                         label: "Correo electronico",
                         icon: Icons.email,
                         keyboardType: TextInputType.emailAddress,
                         onChanged: controller.setEmail,
                         errors: controller.errors('email'),
-                      )),
-                  Obx(
-                    () => LoginTextField(
-                      label: "Contraseña",
-                      icon: Icons.lock,
-                      keyboardType: TextInputType.visiblePassword,
-                      isPassword: true,
-                      onChanged: controller.setPassword,
-                      errors: controller.errors('password'),
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        width: 20,
                       ),
-                      Obx(
-                        () => Checkbox(
-                          value: controller.rememberMe,
-                          onChanged: controller.setRememberMe,
-                        ),
+                      LoginTextField(
+                        label: "Contraseña",
+                        icon: Icons.lock,
+                        keyboardType: TextInputType.visiblePassword,
+                        isPassword: true,
+                        onChanged: controller.setPassword,
+                        errors: controller.errors('password'),
                       ),
-                      Text(
-                        'Recordar',
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ),
-                      const Spacer(),
-                      TextButton(
-                        onPressed: () {},
-                        child: const Text('¿Olvidaste tu contraseña?'),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          Checkbox(
+                            value: controller.rememberMe,
+                            onChanged: controller.setRememberMe,
+                          ),
+                          Text(
+                            'Recordar',
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                          const Spacer(),
+                        ],
                       ),
                       const SizedBox(
-                        width: 20,
+                        height: 20,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: AppRoundedButton(
+                          label: 'Entrar',
+                          onTap: controller.submit,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: AppRoundedButton(
-                      label: 'Entrar',
-                      onTap: controller.submit,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                ],
-              ),
-            ),
+                )),
           ],
         ),
       ),

@@ -5,7 +5,6 @@ class LoginTextField extends StatefulWidget {
     super.key,
     required this.label,
     this.icon,
-    this.initialValue,
     this.keyboardType = TextInputType.text,
     this.onChanged,
     this.isPassword = false,
@@ -20,7 +19,6 @@ class LoginTextField extends StatefulWidget {
   final Function(String)? onChanged;
   final bool isPassword;
   final String? helpText;
-  final String? initialValue;
   final List<String>? errors;
   final void Function(TextEditingController)? onControllingText;
 
@@ -30,12 +28,11 @@ class LoginTextField extends StatefulWidget {
 
 class _LoginTextFieldState extends State<LoginTextField> {
   late bool _visible;
-  late TextEditingController _controller;
+  final TextEditingController _controller = TextEditingController();
   @override
   void initState() {
     super.initState();
     _visible = widget.isPassword;
-    _controller = TextEditingController(text: widget.initialValue);
     widget.onControllingText?.call(_controller);
   }
 
