@@ -67,7 +67,7 @@ class DashboardView extends StatelessWidget {
         Positioned(
           right: 20,
           top: 60,
-          child: _buildUserAccount(),
+          child: UserAccountTag(),
         ),
         Align(
           alignment: const FractionalOffset(0.1, 0.18),
@@ -82,34 +82,6 @@ class DashboardView extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  Widget _buildUserAccount() {
-    final sessionCtrl = Get.find<SessionController>();
-    return Obx(() => Container(
-          decoration: BoxDecoration(
-            color: Get.theme.colorScheme.onPrimary,
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-          child: Row(
-            children: [
-              Text(
-                'Hola!, ${sessionCtrl.partner?.firstname}',
-                style: TextStyle(
-                  color: Get.theme.colorScheme.onSecondary,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(width: 10.0),
-              Icon(
-                Icons.person_4,
-                color: Get.theme.colorScheme.primary,
-                size: 28,
-              ),
-            ],
-          ),
-        ));
   }
 
   Column _buildBackground(BuildContext context) {
@@ -161,7 +133,9 @@ class DashboardView extends StatelessWidget {
           DashboardCard(
             title: "Mis Pedidos",
             image: "assets/img/pedidos.jpg",
-            onTap: () {},
+            onTap: () {
+              Get.toNamed(orderRoute);
+            },
           ),
           DashboardCard(
             title: "Mis Reservaciones",

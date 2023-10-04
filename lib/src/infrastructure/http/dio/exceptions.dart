@@ -37,9 +37,20 @@ class DioHandlerExcepton implements HandlerExceptionService {
   void handlerException(Object exception, StackTrace stack) {
     if (exception is DioException &&
         exception.type == DioExceptionType.badResponse) {
-      final data = codes[exception.response!.statusCode];
-      if (data != null) {
-        _bannerService.showBanner(data);
+      if (exception.response?.statusCode == 400) {
+        final data = exception.response?.data;
+        if (data != null) {
+          _bannerService.showBanner(BannerData(
+            title: "Proceso fallido",
+            message: data["message"],
+            type: BannerType.warning,
+          ));
+        }
+      } else {
+        final data = codes[exception.response!.statusCode];
+        if (data != null) {
+          _bannerService.showBanner(data);
+        }
       }
     }
 

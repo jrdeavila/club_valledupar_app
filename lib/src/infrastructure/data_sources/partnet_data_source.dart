@@ -7,3 +7,11 @@ Partner partnerFromJson(JSON json) => Partner(
       email: json['email'],
       phone: json['phone'],
     );
+
+JSON partnerToJson(Partner partner) => {
+      'id': partner.id,
+      'firstname': partner.firstname,
+      'lastname': partner.lastname,
+      'email': partner.email,
+      'phone': partner.phone,
+    };

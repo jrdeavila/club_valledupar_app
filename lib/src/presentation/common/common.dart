@@ -3,4 +3,5 @@ export 'controllers/controllers.dart';
 export 'exception/exception.dart';
 export 'shared.dart';
 export 'theme/theme.dart';
+export 'transitions/transitions.dart';
 export 'widgets/widgets.dart';

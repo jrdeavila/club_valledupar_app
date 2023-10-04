@@ -1,5 +1,7 @@
 import 'package:club_valledupar_app/lib.dart';
+import 'package:injectable/injectable.dart' as injectable;
 
+@injectable.Injectable(as: OrderRepository)
 class HttpOrderRepository implements OrderRepository {
   final HttpClient _httpClient;
 
@@ -9,17 +11,18 @@ class HttpOrderRepository implements OrderRepository {
   Future<Order> cancelOrder(Order order) {
     return _httpClient
         .put<JSON>(
-          '/orders/${order.id}',
+          '/orders/${order.id}/cancel',
         )
-        .then((value) => orderFromJson(value));
+        .then((value) => orderFromJson(value['data']));
   }
 
   @override
   Future<List<Order>> getOrdersByPartner(Partner partner) {
-    return _httpClient.get<List<JSON>>(
-      '/orders',
-      queryParameters: {'partner': partner.id},
-    ).then((value) => orderListFromJson(value));
+    return _httpClient
+        .get<JSON>(
+          '/orders/${partner.id}',
+        )
+        .then((value) => orderListFromJson(value['data']));
   }
 
   @override
@@ -29,7 +32,7 @@ class HttpOrderRepository implements OrderRepository {
           '/orders',
           data: orderToJson(order),
         )
-        .then((value) => orderFromJson(value));
+        .then((value) => orderFromJson(value['data']));
   }
 
   @override

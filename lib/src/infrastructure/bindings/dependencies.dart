@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 abstract class DioModule {
   @lazySingleton
   Dio get dio => Dio(BaseOptions(
-        baseUrl: "http://192.168.0.12/api",
+        baseUrl: "http://localhost/api",
         followRedirects: false,
       ))
         ..interceptors.addAll(interceptors);

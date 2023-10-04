@@ -5,5 +5,6 @@ class ResturantBindings extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut(() => ResturantController());
+    Get.lazyPut(() => ShoppingCartController());
   }
 }
