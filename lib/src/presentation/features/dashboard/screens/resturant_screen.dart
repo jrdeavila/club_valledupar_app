@@ -138,7 +138,6 @@ class ResturantScreen extends GetView<ResturantController> {
     return Padding(
       padding: const EdgeInsets.only(
         top: 60.0,
-        bottom: 20.0,
       ),
       child: Column(
         children: [
@@ -161,16 +160,19 @@ class ResturantScreen extends GetView<ResturantController> {
           onTap: () => Get.back(),
           child: Icon(
             Icons.arrow_back_ios,
-            size: 30,
+            size: 25,
             color: Theme.of(context).colorScheme.primary,
           ),
         ),
-        Text(
-          isShoppingCart ? "CARRITO" : "RESTAURANTE",
-          style: TextStyle(
-            color: Theme.of(context).colorScheme.primary,
-            fontWeight: FontWeight.bold,
-            fontSize: 25,
+        Expanded(
+          child: Text(
+            isShoppingCart ? "CARRITO" : "RESTAURANTE",
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.primary,
+              fontWeight: FontWeight.bold,
+              fontSize: 25,
+            ),
+            textAlign: TextAlign.center,
           ),
         ),
         GestureDetector(
@@ -197,7 +199,7 @@ class ResturantView extends GetView<ResturantController> {
       () => Column(
         children: [
           Expanded(
-              flex: 1,
+              flex: 2,
               child: Obx(
                 () => ListView.builder(
                   padding: const EdgeInsets.only(left: 20.0),

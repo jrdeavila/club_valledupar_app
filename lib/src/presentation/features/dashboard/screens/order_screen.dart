@@ -52,7 +52,9 @@ class OrderScreen extends GetView<OrderController> {
                           top: 8.0,
                           right: 16.0,
                         ),
-                        child: UserAccountTag(),
+                        child: UserAccountTag(
+                          isSmall: true,
+                        ),
                       ),
                     ],
                   ),

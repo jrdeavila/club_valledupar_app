@@ -2,44 +2,62 @@ import 'package:club_valledupar_app/lib.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class DashboardView extends StatelessWidget {
+class DashboardView extends GetView<DashboardController> {
   const DashboardView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Stack(
+      fit: StackFit.expand,
       children: [
-        Positioned.fill(
-          child: _buildBackground(context),
-        ),
-        Align(
-          alignment: Alignment.center,
-          child: _buildDasboardCard(context),
-        ),
-        Positioned(
-          top: 60,
-          left: 20,
-          child: Icon(
-            Icons.menu,
-            color: Theme.of(context).colorScheme.primary,
-            size: 40,
-          ),
-        ),
-        const Positioned(
-          right: 20,
-          top: 60,
-          child: UserAccountTag(),
-        ),
-        Align(
-          alignment: const FractionalOffset(0.1, 0.18),
-          child: Text(
-            "Dashboard",
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.onSecondary,
-              fontWeight: FontWeight.bold,
-              fontSize: 30,
+        _buildBackground(context),
+        CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              floating: true,
+              backgroundColor: Colors.transparent,
+              toolbarHeight: 100,
+              leadingWidth: 76.0,
+              leading: GestureDetector(
+                child: Icon(
+                  Icons.menu,
+                  color: Theme.of(context).colorScheme.primary,
+                  size: 40,
+                ),
+              ),
+              actions: [
+                UserAccountTag(
+                  onTap: () {
+                    controller.onIndexChanged(3);
+                  },
+                ),
+                const SizedBox(width: 20),
+              ],
             ),
-          ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 20),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Dashboard",
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSecondary,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    _buildDasboardCard(context),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ],
     );
