@@ -12,6 +12,12 @@ class ReservationController extends GetxController {
   DateTime get focusedDay => _focusedDay.value;
   List<Reservation> get reservations => _reservations;
   List<Reservation> get reservationsByDay => getByDay(_focusedDay.value);
+  List<Reservation> get pendingReservations => _reservations
+      .where((reservation) => !isDone(reservation.endDate))
+      .toList();
+  List<Reservation> get doneReservations => _reservations.where((reservation) {
+        return isDone(reservation.endDate);
+      }).toList();
 
   CalendarFormat get calendarFormat => _calendarFormat.value;
 

@@ -27,6 +27,32 @@ class ReservationScreen extends GetView<ReservationController> {
       body: SingleChildScrollView(
         child: Obx(() => Column(
               children: [
+                Row(
+                  children: [
+                    const SizedBox(width: 20),
+                    Expanded(
+                      child: ReservationDetailsCard(
+                        title: "Pendientes",
+                        count: controller.pendingReservations.length,
+                        icon: Icons.pending,
+                        color: Theme.of(context).colorScheme.onSecondary,
+                        bgColor: Theme.of(context).colorScheme.secondary,
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                    Expanded(
+                      child: ReservationDetailsCard(
+                        title: "Realizadas",
+                        count: controller.doneReservations.length,
+                        icon: Icons.check_box,
+                        color: Theme.of(context).colorScheme.onSecondary,
+                        bgColor: Theme.of(context).colorScheme.secondary,
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                  ],
+                ),
+                const SizedBox(height: 20),
                 _buildCalendar(context),
                 const SizedBox(height: 10),
                 Text(
@@ -109,6 +135,86 @@ class ReservationScreen extends GetView<ReservationController> {
           controller.changeCalendarFormat(format);
         },
         locale: "es_CO",
+      ),
+    );
+  }
+}
+
+class ReservationDetailsCard extends StatelessWidget {
+  const ReservationDetailsCard({
+    super.key,
+    required this.title,
+    required this.count,
+    required this.icon,
+    required this.color,
+    required this.bgColor,
+  });
+
+  final String title;
+  final int count;
+  final IconData icon;
+  final Color color;
+  final Color bgColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.background,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 10,
+            offset: const Offset(0, 5),
+          ),
+        ],
+      ),
+      height: 120,
+      child: Column(
+        children: [
+          Expanded(
+            flex: 2,
+            child: Container(
+              decoration: BoxDecoration(
+                  color: bgColor,
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(20),
+                  )),
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    icon,
+                    size: 30,
+                    color: color,
+                  ),
+                  const SizedBox(width: 10),
+                  Text(
+                    "($count)",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: color,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Expanded(
+            child: Center(
+              child: Text(
+                title,
+                style: TextStyle(
+                  color: color,
+                  fontSize: 22.0,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
