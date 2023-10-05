@@ -37,7 +37,9 @@ dependencies:
   get_it: ^7.6.4
   google_fonts: ^6.1.0
   injectable: ^2.3.0
+  intl: ^0.18.1
   shared_preferences: ^2.2.1
+  table_calendar: ^3.0.9
   timeago: ^3.5.0
 
 dev_dependencies:

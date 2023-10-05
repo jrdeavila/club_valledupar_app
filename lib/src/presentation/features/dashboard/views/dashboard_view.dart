@@ -119,7 +119,9 @@ class DashboardView extends GetView<DashboardController> {
           DashboardCard(
             title: "Mis Reservaciones",
             image: "assets/img/reservaciones.jpg",
-            onTap: () {},
+            onTap: () {
+              Get.toNamed(reservationRoute);
+            },
           ),
         ],
       ),
