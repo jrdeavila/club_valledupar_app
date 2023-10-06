@@ -44,19 +44,21 @@ class DateTimeCard extends StatelessWidget {
               children: [
                 Text(date.day.toString().padLeft(2, '0'),
                     style: const TextStyle(fontSize: 30)),
-                const Text(' / ', style: TextStyle(fontSize: 30)),
+                const Text('/', style: TextStyle(fontSize: 30)),
                 Text(date.month.toString().padLeft(2, '0'),
                     style: const TextStyle(fontSize: 30)),
-                const Text(' / ', style: TextStyle(fontSize: 30)),
+                const Text('/', style: TextStyle(fontSize: 30)),
                 Text(
                   date.year.toString(),
                   style: const TextStyle(fontSize: 30),
                 ),
                 const Text(' - ', style: TextStyle(fontSize: 30)),
                 // Day Name
-                Text(
-                  DateFormat('EEEE', 'es_CO').format(date).capitalize!,
-                  style: const TextStyle(fontSize: 30),
+                Expanded(
+                  child: Text(
+                    DateFormat('EEEE', 'es_CO').format(date).capitalize!,
+                    style: const TextStyle(fontSize: 30),
+                  ),
                 ),
               ],
             ),

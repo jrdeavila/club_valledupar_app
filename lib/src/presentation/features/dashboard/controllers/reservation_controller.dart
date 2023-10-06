@@ -1,6 +1,7 @@
 import 'package:club_valledupar_app/lib.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class ReservationController extends GetxController {
@@ -71,6 +72,11 @@ class ReservationController extends GetxController {
     final parse = dateTimeFromString(time);
     final timeFormatService = getIt<TimeFormatService>();
     return timeFormatService.formatTime(parse);
+  }
+
+  String hour(String dateTime) {
+    final parse = dateTimeFromString(dateTime);
+    return DateFormat("hh:mm a").format(parse);
   }
 
   int color(String value) {

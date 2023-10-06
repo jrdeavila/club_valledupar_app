@@ -72,8 +72,11 @@ class ReservationScreen extends GetView<ReservationController> {
                         title: reservation.typeReservation.name,
                         desc: "Reservado para ${reservation.insumeArea.name}",
                         isDone: controller.isDone(reservation.endDate),
-                        createdAt: controller.timeAgo(reservation.createdAt!),
+                        createdAt:
+                            "Reservado ${controller.timeAgo(reservation.createdAt!)}",
                         color: controller.color(reservation.insumeArea.color),
+                        startTime: controller.hour(reservation.startDate),
+                        endTime: controller.hour(reservation.endDate),
                         onDelete: () {
                           controller.onDeleteReservation(reservation);
                         },
@@ -228,6 +231,8 @@ class ReservationDetailsCard extends StatelessWidget {
 class ReservationCard extends StatelessWidget {
   final String title;
   final String desc;
+  final String startTime;
+  final String endTime;
   final bool isDone;
   final String createdAt;
   final int color;
@@ -241,6 +246,8 @@ class ReservationCard extends StatelessWidget {
     required this.createdAt,
     required this.color,
     required this.onDelete,
+    required this.startTime,
+    required this.endTime,
   });
 
   @override
@@ -263,58 +270,69 @@ class ReservationCard extends StatelessWidget {
               ),
             ]),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: textColor),
-                ),
-                const SizedBox(
-                  height: 10.0,
-                ),
-                Row(
-                  children: [
-                    Container(
-                      height: 20,
-                      width: 20,
-                      decoration: BoxDecoration(
-                        color: color,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      desc,
-                      style: TextStyle(
-                        color: textColor,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                Text(
-                  createdAt,
-                  style: TextStyle(
-                    color: textColor,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: textColor),
                   ),
-                ),
-              ],
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        height: 20,
+                        width: 20,
+                        decoration: BoxDecoration(
+                          color: color,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: Text(
+                          desc,
+                          style: TextStyle(
+                            color: textColor,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    "$startTime - $endTime",
+                    style: TextStyle(
+                      color: textColor,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    createdAt,
+                    style: TextStyle(
+                      color: textColor,
+                    ),
+                  ),
+                ],
+              ),
             ),
-            const Spacer(),
+            const SizedBox(width: 20),
             Container(
               padding: const EdgeInsets.all(10),
               child: Column(
                 children: [
                   Icon(
-                    isDone ? Icons.check : Icons.pending_sharp,
+                    isDone ? Icons.check : Icons.access_time,
                     color: textColor,
                     size: 40.0,
                   ),

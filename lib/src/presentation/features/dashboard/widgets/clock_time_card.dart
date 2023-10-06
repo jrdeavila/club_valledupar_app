@@ -35,17 +35,23 @@ class ClockTimeCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(label, style: const TextStyle(fontSize: 14.0)),
+            Text(
+              label,
+              style: const TextStyle(
+                fontSize: 14.0,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
             Row(
               children: [
                 Text(time.hourOfPeriod.toString().padLeft(2, '0'),
-                    style: const TextStyle(fontSize: 30)),
-                const Text(' : ', style: TextStyle(fontSize: 30)),
+                    style: const TextStyle(fontSize: 25)),
+                const Text(' : ', style: TextStyle(fontSize: 25)),
                 Text(time.minute.toString().padLeft(2, '0'),
-                    style: const TextStyle(fontSize: 30)),
+                    style: const TextStyle(fontSize: 25)),
                 Text(
                   time.period == DayPeriod.am ? ' AM' : ' PM',
-                  style: const TextStyle(fontSize: 30),
+                  style: const TextStyle(fontSize: 25),
                 ),
               ],
             ),
