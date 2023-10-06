@@ -114,6 +114,34 @@ class CreateReservationScreen extends GetView<CreateReservationController> {
                     },
                   ),
                 const SizedBox(height: 20),
+                Row(
+                  children: [
+                    Expanded(
+                      child: AppRoundedButton(
+                        label: "Repetir",
+                        padding: EdgeInsets.zero,
+                        isBordered: !controller.isEver,
+                        radius: 20.0,
+                        onTap: () {
+                          controller.changeIsEver(true);
+                        },
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                    Expanded(
+                      child: AppRoundedButton(
+                        isBordered: controller.isEver,
+                        label: "No repetir",
+                        padding: EdgeInsets.zero,
+                        radius: 20.0,
+                        onTap: () {
+                          controller.changeIsEver(false);
+                        },
+                      ),
+                    )
+                  ],
+                ),
+                const SizedBox(height: 20),
                 AppTxtField(
                   onChange: (value) {
                     controller.changeObservations(value);
@@ -144,156 +172,4 @@ class CreateReservationScreen extends GetView<CreateReservationController> {
       ),
     );
   }
-}
-
-class DropDownCard extends StatefulWidget {
-  const DropDownCard({
-    super.key,
-    required this.label,
-    required this.items,
-    required this.onChangeId,
-  });
-
-  final String label;
-  final Iterable<DropDownCardItem> items;
-  final void Function(int) onChangeId;
-
-  @override
-  State<DropDownCard> createState() => _DropDownCardState();
-}
-
-class _DropDownCardState extends State<DropDownCard> {
-  late int _currentId;
-
-  @override
-  void initState() {
-    super.initState();
-    _currentId = widget.items.first.id;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
-        width: double.infinity,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: Theme.of(context).colorScheme.onBackground,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              widget.label,
-              style: TextStyle(
-                fontSize: 14,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              widget.items
-                  .firstWhere((e) => e.id == _currentId,
-                      orElse: () => DropDownCardItem(
-                            id: 0,
-                            title: "Selecciona un tipo de reserva",
-                            desc: "",
-                          ))
-                  .title
-                  .toUpperCase(),
-              style: TextStyle(
-                fontSize: 24,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-            ),
-          ],
-        ),
-      ),
-      onTap: () {
-        showModalBottomSheet(
-          context: context,
-          backgroundColor: Theme.of(context).colorScheme.onBackground,
-          builder: (context) {
-            return Container(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    "Selecciona un tipo de reserva",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  ...widget.items.map(
-                    (e) => GestureDetector(
-                      onTap: () {
-                        widget.onChangeId(e.id);
-                        setState(() {
-                          _currentId = e.id;
-                        });
-                        Get.back();
-                      },
-                      child: Column(
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.only(bottom: 10),
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 20.0),
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  e.title,
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color:
-                                        Theme.of(context).colorScheme.onPrimary,
-                                  ),
-                                ),
-                                Text(
-                                  e.desc,
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color:
-                                        Theme.of(context).colorScheme.onPrimary,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
-}
-
-class DropDownCardItem {
-  final int id;
-  final String title;
-  final String desc;
-
-  DropDownCardItem({
-    required this.id,
-    required this.title,
-    required this.desc,
-  });
 }

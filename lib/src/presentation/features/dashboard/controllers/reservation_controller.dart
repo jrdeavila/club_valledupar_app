@@ -57,9 +57,10 @@ class ReservationController extends GetxController {
   List<Reservation> getByDay(DateTime day) {
     return _reservations.where((reservation) {
       var parse = dateTimeFromString(reservation.startDate);
-      return parse.day == day.day &&
-          parse.month == day.month &&
-          parse.year == day.year;
+      return (parse.day == day.day &&
+              parse.month == day.month &&
+              parse.year == day.year) ||
+          (reservation.isEver);
     }).toList();
   }
 
@@ -109,6 +110,7 @@ class CreateReservationController extends GetxController {
   final RxList<TypeReservation> _types = <TypeReservation>[].obs;
   final Rx<InsumeArea?> _area = Rx(null);
   final Rx<TypeReservation?> _type = Rx(null);
+  final RxBool _isEver = true.obs;
   final RxString _observations = "".obs;
   final RxMap<String, List> _errors = RxMap();
 
@@ -118,6 +120,7 @@ class CreateReservationController extends GetxController {
   List<InsumeArea> get areas => _areas;
   List<TypeReservation> get types => _types;
   List get errors => _errors.values.expand((element) => element).toList();
+  bool get isEver => _isEver.value;
 
   void changeStartTime(TimeOfDay time) {
     _startTime.value = time;
@@ -143,6 +146,10 @@ class CreateReservationController extends GetxController {
 
   void changeObservations(String value) {
     _observations.value = value;
+  }
+
+  void changeIsEver(bool value) {
+    _isEver.value = value;
   }
 
   @override
@@ -183,7 +190,7 @@ class CreateReservationController extends GetxController {
       endDate: _dateTimeToString(date, endTime),
       insumeArea: _area.value!,
       typeReservation: _type.value!,
-      isEver: true,
+      isEver: _isEver.value,
       observations: [
         _observations.value,
       ],

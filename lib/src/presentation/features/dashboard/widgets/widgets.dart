@@ -3,6 +3,7 @@ export 'clock_time_card.dart';
 export 'concret_order.dart';
 export 'dashboard_card.dart';
 export 'datetime_card.dart';
+export 'dropdown_card.dart';
 export 'order_item.dart';
 export 'product_card_item.dart';
 export 'shopping_item.dart';
