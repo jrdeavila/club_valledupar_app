@@ -5,5 +5,6 @@ class ReservationBindings extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<ReservationController>(() => ReservationController());
+    Get.lazyReplace(() => CreateReservationController());
   }
 }

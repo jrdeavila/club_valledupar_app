@@ -6,6 +6,7 @@ const resturantRoute = '/resturant';
 const shoppingCartRoute = '/shopping-cart';
 const orderRoute = '/order';
 const reservationRoute = '/reservation';
+const createReservationRoute = '/create-reservation';
 
 final dashboardPages = [
   GetPage(
@@ -26,6 +27,11 @@ final dashboardPages = [
   GetPage(
     name: reservationRoute,
     page: () => const ReservationScreen(),
+    binding: ReservationBindings(),
+  ),
+  GetPage(
+    name: createReservationRoute,
+    page: () => const CreateReservationScreen(),
     binding: ReservationBindings(),
   ),
 ];

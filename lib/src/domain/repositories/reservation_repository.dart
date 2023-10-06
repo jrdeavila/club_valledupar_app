@@ -9,3 +9,7 @@ abstract class ReservationRepository {
   Future<Reservation> createReservation(Reservation reservation);
   Future<void> deleteReservation(Reservation id);
 }
+
+abstract class RespositoryTypesRepository {
+  Future<List<TypeReservation>> getTypes();
+}

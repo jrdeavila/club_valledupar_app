@@ -10,7 +10,8 @@ class HttpReservationRepository implements ReservationRepository {
   @override
   Future<Reservation> createReservation(Reservation reservation) {
     return _httpClient
-        .post<JSON>("/reservations/", data: reservationToJson(reservation))
+        .post<JSON>("/reservations/${reservation.user.id}",
+            data: reservationToJson(reservation))
         .then(
           (value) => reservationFromJson(value['data']),
         );
@@ -35,7 +36,21 @@ class HttpInsumeAreaRepository implements InsumeAreaRepository {
   HttpInsumeAreaRepository(this._httpClient);
   @override
   Future<List<InsumeArea>> getInsumeAreas() {
-    return _httpClient.get<JSON>("/insumeareas/").then((value) =>
+    return _httpClient.get<JSON>("/insume-areas").then((value) =>
         value['data'].map<InsumeArea>((e) => insumeAreaFromJson(e)).toList());
+  }
+}
+
+@Injectable(as: RespositoryTypesRepository)
+class HttpRespositoryTypesRepository implements RespositoryTypesRepository {
+  final HttpClient _httpClient;
+
+  HttpRespositoryTypesRepository(this._httpClient);
+  @override
+  Future<List<TypeReservation>> getTypes() {
+    return _httpClient.get<JSON>("/type-reservations").then((value) =>
+        value['data']
+            .map<TypeReservation>((e) => typeReservationFromJson(e))
+            .toList());
   }
 }

@@ -16,7 +16,9 @@ class ReservationScreen extends GetView<ReservationController> {
         centerTitle: true,
         actions: [
           GestureDetector(
-              onTap: () {},
+              onTap: () {
+                controller.onCreateNew();
+              },
               child: const Icon(
                 Icons.edit_calendar,
                 size: 30,
@@ -70,7 +72,7 @@ class ReservationScreen extends GetView<ReservationController> {
                         title: reservation.typeReservation.name,
                         desc: "Reservado para ${reservation.insumeArea.name}",
                         isDone: controller.isDone(reservation.endDate),
-                        createdAt: controller.timeAgo(reservation.createdAt),
+                        createdAt: controller.timeAgo(reservation.createdAt!),
                         color: controller.color(reservation.insumeArea.color),
                       );
                     }).toList(),

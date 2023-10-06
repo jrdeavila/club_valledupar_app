@@ -1,4 +1,5 @@
 import 'package:club_valledupar_app/lib.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -44,6 +45,14 @@ class ReservationController extends GetxController {
     });
   }
 
+  void onCreateNew() {
+    Get.toNamed(createReservationRoute);
+  }
+
+  void saveReservation(Reservation reservation) {
+    _reservations.add(reservation);
+  }
+
   List<Reservation> getByDay(DateTime day) {
     return _reservations.where((reservation) {
       var parse = dateTimeFromString(reservation.startDate);
@@ -67,5 +76,124 @@ class ReservationController extends GetxController {
   int color(String value) {
     final parse = value.replaceFirst("#", "0xFF");
     return int.parse(parse);
+  }
+}
+
+class CreateReservationController extends GetxController {
+  final ValidatorService _validatorService = getIt<ValidatorService>();
+
+  final Rx<TimeOfDay> _startTime = TimeOfDay.now().obs;
+  final Rx<TimeOfDay> _endTime = TimeOfDay.now().obs;
+  final Rx<DateTime> _date = DateTime.now().obs;
+  final RxList<InsumeArea> _areas = <InsumeArea>[].obs;
+  final RxList<TypeReservation> _types = <TypeReservation>[].obs;
+  final Rx<InsumeArea?> _area = Rx(null);
+  final Rx<TypeReservation?> _type = Rx(null);
+  final RxString _observations = "".obs;
+  final RxMap<String, List> _errors = RxMap();
+
+  TimeOfDay get startTime => _startTime.value;
+  TimeOfDay get endTime => _endTime.value;
+  DateTime get date => _date.value;
+  List<InsumeArea> get areas => _areas;
+  List<TypeReservation> get types => _types;
+  List get errors => _errors.values.expand((element) => element).toList();
+
+  void changeStartTime(TimeOfDay time) {
+    _startTime.value = time;
+  }
+
+  void changeEndTime(TimeOfDay time) {
+    _endTime.value = time;
+  }
+
+  void changeDate(DateTime date) {
+    _date.value = date;
+  }
+
+  void changeArea(int id) {
+    final area = _areas.firstWhere((element) => element.id == id);
+    _area.value = area;
+  }
+
+  void changeType(int id) {
+    final type = _types.firstWhere((element) => element.id == id);
+    _type.value = type;
+  }
+
+  void changeObservations(String value) {
+    _observations.value = value;
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    _validatorService.onListen(
+      (value) {
+        _errors.addAll(value);
+      },
+    );
+    _fetchInsumeAreas();
+    _fetchTypes();
+  }
+
+  void _fetchInsumeAreas() {
+    final fetchInsumeAreasUseCase = getIt<FetchInsumeAreasUseCase>();
+    fetchInsumeAreasUseCase().then((areas) {
+      _areas.addAll(areas);
+      _area.value = areas.first;
+    });
+  }
+
+  void _fetchTypes() {
+    final fetchTypesUseCase = getIt<FetchTypesUseCase>();
+    fetchTypesUseCase().then((types) {
+      _types.addAll(types);
+      _type.value = types.first;
+    });
+  }
+
+  void onCreate() {
+    _validatorService.deleteErrors();
+    final partner = Get.find<SessionController>().partner!;
+    final createReservationUseCase = getIt<CreateReservationUseCase>();
+    final reservation = Reservation(
+      user: partner,
+      startDate: _dateTimeToString(date, startTime),
+      endDate: _dateTimeToString(date, endTime),
+      insumeArea: _area.value!,
+      typeReservation: _type.value!,
+      isEver: true,
+      observations: [
+        _observations.value,
+      ],
+    );
+
+    createReservationUseCase(reservation).then((value) {
+      Get.find<ReservationController>().saveReservation(value);
+      Get.back();
+      getIt<BannerService>().showBanner(
+        BannerData(
+          title: "Reserva creada",
+          message: "Reserva creada con exito",
+          type: BannerType.success,
+        ),
+      );
+    });
+  }
+
+  String _dateTimeToString(DateTime date, TimeOfDay time) {
+    final dateTime = DateTime(
+      date.year,
+      date.month,
+      date.day,
+      time.hour,
+      time.minute,
+    );
+    return dateTime.toIso8601String();
+  }
+
+  DateTime dateTimeFromString(String date) {
+    return DateTime.parse(date);
   }
 }

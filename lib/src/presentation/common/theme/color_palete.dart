@@ -6,6 +6,8 @@ abstract class ColorPalete {
     colorScheme: colorScheme,
     appBarTheme: appBarTheme,
     inputDecorationTheme: inputDecorationTheme,
+    timePickerTheme: timePickerTheme,
+    datePickerTheme: datePickerTheme,
     useMaterial3: true,
   );
 
@@ -50,5 +52,13 @@ abstract class ColorPalete {
     hintStyle: const TextStyle(
       color: Color.fromARGB(255, 54, 56, 56),
     ),
+  );
+
+  static final TimePickerThemeData timePickerTheme = TimePickerThemeData(
+    backgroundColor: colorScheme.background,
+  );
+
+  static final DatePickerThemeData datePickerTheme = DatePickerThemeData(
+    backgroundColor: colorScheme.background,
   );
 }

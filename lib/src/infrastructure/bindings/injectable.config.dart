@@ -63,6 +63,8 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i12.HttpPartnerAuthenticationService(gh<_i3.HttpClient>()));
     gh.factory<_i8.ReservationRepository>(
         () => _i9.HttpReservationRepository(gh<_i8.HttpClient>()));
+    gh.factory<_i8.RespositoryTypesRepository>(
+        () => _i9.HttpRespositoryTypesRepository(gh<_i8.HttpClient>()));
     gh.factory<_i3.RestaurantRepository>(
         () => _i13.HttpResturantRepository(gh<_i3.HttpClient>()));
     await gh.factoryAsync<_i14.SharedPreferences>(
@@ -90,6 +92,8 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i21.FetchReservationsUseCase(gh<_i22.ReservationRepository>()));
     gh.factory<_i20.FetchSectionsUseCase>(
         () => _i20.FetchSectionsUseCase(gh<_i3.RestaurantRepository>()));
+    gh.factory<_i21.FetchTypesUseCase>(
+        () => _i21.FetchTypesUseCase(gh<_i22.RespositoryTypesRepository>()));
     gh.factory<_i23.GetPartnerUseCase>(
         () => _i23.GetPartnerUseCase(gh<_i3.PartnerAuthenticationService>()));
     gh.factory<_i23.LoginUseCase>(() => _i23.LoginUseCase(

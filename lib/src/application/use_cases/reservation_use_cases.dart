@@ -33,3 +33,14 @@ class FetchInsumeAreasUseCase {
     return await _insumeAreaRepository.getInsumeAreas();
   }
 }
+
+@injectable
+class FetchTypesUseCase {
+  final RespositoryTypesRepository _typeRepository;
+
+  FetchTypesUseCase(this._typeRepository);
+
+  Future<List<TypeReservation>> call() {
+    return _typeRepository.getTypes();
+  }
+}
