@@ -44,3 +44,14 @@ class FetchTypesUseCase {
     return _typeRepository.getTypes();
   }
 }
+
+@injectable
+class DeleteReservationUseCase {
+  final ReservationRepository _reservationRepository;
+
+  DeleteReservationUseCase(this._reservationRepository);
+
+  Future<void> call(Reservation reservation) async {
+    return await _reservationRepository.deleteReservation(reservation);
+  }
+}

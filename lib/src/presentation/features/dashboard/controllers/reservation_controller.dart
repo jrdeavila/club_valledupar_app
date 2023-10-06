@@ -77,6 +77,20 @@ class ReservationController extends GetxController {
     final parse = value.replaceFirst("#", "0xFF");
     return int.parse(parse);
   }
+
+  void onDeleteReservation(Reservation reservation) {
+    final deleteReservationUseCase = getIt<DeleteReservationUseCase>();
+    deleteReservationUseCase(reservation).then((value) {
+      _reservations.remove(reservation);
+      getIt<BannerService>().showBanner(
+        BannerData(
+          title: "Reserva eliminada",
+          message: "Reserva eliminada con exito",
+          type: BannerType.info,
+        ),
+      );
+    });
+  }
 }
 
 class CreateReservationController extends GetxController {

@@ -84,6 +84,8 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i20.CreateOrderUseCase(gh<_i3.OrderRepository>()));
     gh.factory<_i21.CreateReservationUseCase>(
         () => _i21.CreateReservationUseCase(gh<_i22.ReservationRepository>()));
+    gh.factory<_i21.DeleteReservationUseCase>(
+        () => _i21.DeleteReservationUseCase(gh<_i22.ReservationRepository>()));
     gh.factory<_i21.FetchInsumeAreasUseCase>(
         () => _i21.FetchInsumeAreasUseCase(gh<_i22.InsumeAreaRepository>()));
     gh.factory<_i20.FetchOrdersUseCase>(

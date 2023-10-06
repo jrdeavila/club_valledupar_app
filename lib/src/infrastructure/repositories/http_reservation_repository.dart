@@ -18,8 +18,9 @@ class HttpReservationRepository implements ReservationRepository {
   }
 
   @override
-  Future<void> deleteReservation(Reservation id) {
-    return _httpClient.delete("/reservations/${id.id}");
+  Future<void> deleteReservation(Reservation reservation) {
+    return _httpClient
+        .delete<void>("/reservations/${reservation.id}/${reservation.user.id}");
   }
 
   @override
