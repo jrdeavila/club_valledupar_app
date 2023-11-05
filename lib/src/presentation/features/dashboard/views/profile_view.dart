@@ -52,7 +52,7 @@ class ProfileView extends GetView<SessionController> {
                 height: 10,
               ),
               Text(
-                "${controller.partner!.firstname} ${controller.partner!.lastname}",
+                "${controller.partner?.name}",
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.onSecondary,
                   fontWeight: FontWeight.bold,

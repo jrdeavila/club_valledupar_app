@@ -27,7 +27,7 @@ class UserAccountTag extends StatelessWidget {
           children: [
             if (!isSmall) ...[
               Text(
-                'Hola!, ${sessionCtrl.partner?.firstname}',
+                'Hola!, ${sessionCtrl.partner?.name}',
                 style: TextStyle(
                   color: Get.theme.colorScheme.onSecondary,
                   fontWeight: FontWeight.bold,

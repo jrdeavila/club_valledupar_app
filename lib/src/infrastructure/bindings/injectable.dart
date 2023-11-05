@@ -10,7 +10,7 @@ final getIt = GetIt.instance;
   preferRelativeImports: true,
   asExtension: true,
 )
-void configureDependencies() {
+Future<void> configureDependencies() {
   initializeDateFormatting('es_CO', null);
-  getIt.init();
+  return getIt.init();
 }
