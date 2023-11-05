@@ -17,30 +17,30 @@ class UserAccountTag extends StatelessWidget {
     final sessionCtrl = Get.find<SessionController>();
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Get.theme.colorScheme.onPrimary,
-          borderRadius: BorderRadius.circular(20.0),
-        ),
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-        child: Row(
-          children: [
-            if (!isSmall) ...[
-              Text(
-                'Hola!, ${sessionCtrl.partner?.name}',
-                style: TextStyle(
-                  color: Get.theme.colorScheme.onSecondary,
-                  fontWeight: FontWeight.bold,
+      child: BlurredContainer(
+        width: isSmall ? 50.0 : 180.0,
+        height: isSmall ? 50.0 : 60.0,
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (!isSmall) ...[
+                Text(
+                  'Hola!, ${sessionCtrl.partner?.name.split(' ')[0]}',
+                  style: TextStyle(
+                    color: Get.find<ColorPalete>().textOnSecondary,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
+                const SizedBox(width: 10.0),
+              ],
+              Icon(
+                Icons.person,
+                color: Get.find<ColorPalete>().textOnSecondary,
+                size: 28,
               ),
-              const SizedBox(width: 10.0),
             ],
-            Icon(
-              Icons.person_4,
-              color: Get.theme.colorScheme.primary,
-              size: 28,
-            ),
-          ],
+          ),
         ),
       ),
     );

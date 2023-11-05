@@ -10,25 +10,23 @@ class DashboardView extends GetView<DashboardController> {
     return Stack(
       fit: StackFit.expand,
       children: [
-        _buildBackground(context),
         CustomScrollView(
           slivers: [
             SliverAppBar(
               floating: true,
               backgroundColor: Colors.transparent,
               toolbarHeight: 100,
-              leadingWidth: 76.0,
-              leading: GestureDetector(
-                child: Icon(
-                  Icons.menu,
-                  color: Theme.of(context).colorScheme.primary,
-                  size: 40,
+              leading: Center(
+                child: Image.asset(
+                  'assets/logos/small-logo.png',
+                  height: 80,
                 ),
               ),
+              leadingWidth: 100,
               actions: [
                 UserAccountTag(
                   onTap: () {
-                    controller.onIndexChanged(3);
+                    controller.goToProfile();
                   },
                 ),
                 const SizedBox(width: 20),
@@ -36,95 +34,60 @@ class DashboardView extends GetView<DashboardController> {
             ),
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Column(
+                padding: const EdgeInsets.only(
+                  top: 15.0,
+                  left: 16.0,
+                  right: 16.0,
+                  bottom: 50.0,
+                ),
+                child: Text(
+                  "Bienvenido a la app del Club Social Valledupar! 🥳",
+                  style: TextStyle(
+                    color: Get.find<ColorPalete>().textOnSecondary,
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: SizedBox(
+                height: 400.0,
+                width: MediaQuery.of(context).size.width,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
                   children: [
-                    const SizedBox(height: 20),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Dashboard",
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.onSecondary,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30,
-                        ),
-                      ),
+                    DashboardCard(
+                      image: "assets/img/delivery.jpg",
+                      title: "Revisa tus pedidos",
+                      onTap: () {
+                        controller.goToOrders();
+                      },
                     ),
-                    const SizedBox(height: 20),
-                    _buildDasboardCard(context),
+                    DashboardCard(
+                      image: "assets/img/waiter.jpg",
+                      title: "Ordena desde cualquier lugar",
+                      onTap: () {
+                        controller.goToMenu();
+                      },
+                    ),
                   ],
                 ),
               ),
             ),
+            SliverToBoxAdapter(
+              child: DashboardCard(
+                image: "assets/img/reservation.jpg",
+                title: "Mira tus reservas",
+                color: const Color(0xfff7edff),
+                onTap: () {
+                  controller.goToReservations();
+                },
+              ),
+            )
           ],
         ),
       ],
-    );
-  }
-
-  Column _buildBackground(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-            flex: 2,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.secondary,
-              ),
-            )),
-        Expanded(
-          flex: 3,
-          child: Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.onPrimary,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Container _buildDasboardCard(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.48,
-      width: MediaQuery.of(context).size.width * 0.93,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(30.0),
-        color: Theme.of(context).colorScheme.background,
-      ),
-      child: GridView(
-        padding: const EdgeInsets.all(16.0),
-        physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 16,
-          mainAxisSpacing: 16,
-        ),
-        children: [
-          DashboardCard(
-            title: "Menu del Restaurante",
-            image: "assets/img/cartas.webp",
-            onTap: () {
-              Get.toNamed(resturantRoute);
-            },
-          ),
-          DashboardCard(
-            title: "Mis Pedidos",
-            image: "assets/img/pedidos.jpg",
-            onTap: () {
-              Get.toNamed(orderRoute);
-            },
-          ),
-          DashboardCard(
-            title: "Mis Reservaciones",
-            image: "assets/img/reservaciones.jpg",
-            onTap: () {
-              Get.toNamed(reservationRoute);
-            },
-          ),
-        ],
-      ),
     );
   }
 }

@@ -1,99 +1,54 @@
-import 'dart:ui';
-
+import 'package:club_valledupar_app/lib.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class DashboardCard extends StatefulWidget {
+class DashboardCard extends StatelessWidget {
   const DashboardCard({
     super.key,
-    required this.title,
     required this.image,
+    required this.title,
     required this.onTap,
+    this.color = Colors.white,
   });
 
-  final String title;
   final String image;
+  final String title;
   final VoidCallback onTap;
-
-  @override
-  State<DashboardCard> createState() => _DashboardCardState();
-}
-
-class _DashboardCardState extends State<DashboardCard>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _animationController = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 100),
-  )..addListener(() {
-      setState(() {});
-    });
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: widget.onTap,
-      onTapDown: (_) {
-        _animationController.forward();
-      },
-      onTapUp: (_) {
-        _animationController.reverse();
-      },
-      onTapCancel: () {
-        _animationController.reverse();
-      },
-      child: AnimatedBuilder(
-          animation: _animationController,
-          builder: (context, child) {
-            return Transform.scale(
-              scale: lerpDouble(1, 1.05, _animationController.value),
-              child: child,
-            );
-          },
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: Theme.of(context).colorScheme.onPrimary,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
-                  blurRadius: 10,
-                  offset: const Offset(0, 0),
-                ),
-              ],
+      onTap: onTap,
+      child: Container(
+        width: 350,
+        margin: const EdgeInsets.symmetric(horizontal: 16.0),
+        padding: const EdgeInsets.all(16.0),
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+        child: Column(
+          children: [
+            Image.asset(
+              image,
+              height: 250.0,
+              // Save cache image
+              cacheHeight: 250,
             ),
-            child: Column(
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(20),
-                      ),
-                      image: DecorationImage(
-                        image: AssetImage(widget.image),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      widget.title,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSecondary,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          )),
+            const SizedBox(height: 10.0),
+            Text(
+              title,
+              style: TextStyle(
+                color: Get.find<ColorPalete>().textOnSecondary,
+                fontSize: 30.0,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            )
+          ],
+        ),
+      ),
     );
   }
 }

@@ -1,11 +1,21 @@
+import 'package:club_valledupar_app/src/presentation/features/features.dart';
 import 'package:get/get.dart';
 
 class DashboardController extends GetxController {
-  final RxInt _currentIndex = RxInt(0);
+  void goToMenu() {
+    Get.toNamed(resturantRoute);
+  }
 
-  int get currentIndex => _currentIndex.value;
+  void goToReservations() {
+    Get.toNamed(reservationRoute);
+  }
 
-  void onIndexChanged(int index) {
-    _currentIndex.value = index;
+  void goToOrders() {
+    Get.toNamed(orderRoute);
+  }
+
+  void goToProfile() {
+    // TODO: Implementar ruta de perfil
+    // Get.toNamed(profileRoute);
   }
 }
