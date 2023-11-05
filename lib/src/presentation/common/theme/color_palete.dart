@@ -1,10 +1,24 @@
 import 'package:flutter/material.dart';
 
-abstract class ColorPalete {
+class ColorPalete {
+  final Color textOnPrimary = const Color.fromARGB(255, 245, 245, 245);
+  final Color textOnSecondary = const Color.fromARGB(255, 54, 56, 56);
+  final Color componentColor = const Color.fromARGB(255, 245, 245, 245);
+  final Color blurredChildColor = const Color.fromARGB(153, 245, 245, 245);
+  final Color blurredColor = const Color.fromARGB(85, 245, 245, 245);
+  final Color textOnError = const Color.fromARGB(255, 247, 247, 247);
+  final Color componentOnError = const Color.fromARGB(255, 207, 100, 100);
+
+  ColorPalete light() {
+    return ColorPalete();
+  }
+}
+
+abstract class AppTheme {
   static final ThemeData themeData = ThemeData(
     scaffoldBackgroundColor: colorScheme.background,
     fontFamily: 'Poppins',
-    colorScheme: colorScheme,
+    // colorScheme: colorScheme,
     appBarTheme: appBarTheme,
     inputDecorationTheme: inputDecorationTheme,
     timePickerTheme: timePickerTheme,
@@ -29,13 +43,13 @@ abstract class ColorPalete {
   );
 
   // Configuracion de la barra superior
-  static final AppBarTheme appBarTheme = AppBarTheme(
-    backgroundColor: colorScheme.onPrimary,
+  static const AppBarTheme appBarTheme = AppBarTheme(
+    backgroundColor: Colors.transparent,
     elevation: 0,
-    titleTextStyle: const TextStyle(
-        fontSize: 20,
-        fontWeight: FontWeight.bold,
-        color: Color.fromARGB(255, 54, 56, 56)),
+    titleTextStyle: TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+    ),
   );
 
   // Configuracion de los inputs

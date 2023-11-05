@@ -15,28 +15,28 @@ class BannerStyle {
   });
 
   factory BannerStyle.success() => BannerStyle(
-        backgroundColor: ColorPalete.colorScheme.primary,
-        textColor: ColorPalete.colorScheme.onPrimary,
+        backgroundColor: AppTheme.colorScheme.primary,
+        textColor: AppTheme.colorScheme.onPrimary,
         icon: Icons.check_circle_outline,
         duration: const Duration(seconds: 3),
       );
 
   factory BannerStyle.error() => BannerStyle(
-        backgroundColor: ColorPalete.colorScheme.error,
-        textColor: ColorPalete.colorScheme.onError,
+        backgroundColor: AppTheme.colorScheme.error,
+        textColor: AppTheme.colorScheme.onError,
         icon: Icons.error_outline,
         duration: const Duration(seconds: 3),
       );
   factory BannerStyle.warning() => BannerStyle(
-        backgroundColor: ColorPalete.colorScheme.tertiary,
-        textColor: ColorPalete.colorScheme.onSecondary,
+        backgroundColor: AppTheme.colorScheme.tertiary,
+        textColor: AppTheme.colorScheme.onSecondary,
         icon: Icons.warning_amber_outlined,
         duration: const Duration(seconds: 3),
       );
 
   factory BannerStyle.info() => BannerStyle(
-        backgroundColor: ColorPalete.colorScheme.onBackground,
-        textColor: ColorPalete.colorScheme.onSecondary,
+        backgroundColor: AppTheme.colorScheme.onBackground,
+        textColor: AppTheme.colorScheme.onSecondary,
         icon: Icons.info_outline,
         duration: const Duration(seconds: 3),
       );

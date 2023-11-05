@@ -1,4 +1,6 @@
+import 'package:club_valledupar_app/lib.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class LoginTextField extends StatefulWidget {
   const LoginTextField({
@@ -38,34 +40,48 @@ class _LoginTextFieldState extends State<LoginTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(8.0),
-      child: TextFormField(
-        style: TextStyle(
-          color: Theme.of(context).colorScheme.primary,
+    final Color backgroundColor = Get.find<ColorPalete>().blurredChildColor;
+    final Color textColor = Get.find<ColorPalete>().textOnPrimary;
+    final Color cursorColor = Get.find<ColorPalete>().textOnSecondary;
+    final Color errorColor = Get.find<ColorPalete>().componentOnError;
+    return TextFormField(
+      style: TextStyle(
+        color: textColor,
+        fontWeight: FontWeight.bold,
+        fontSize: 18.0,
+      ),
+      cursorColor: cursorColor,
+      keyboardType: widget.keyboardType,
+      enabled: widget.onChanged != null,
+      controller: _controller,
+      obscureText: _visible,
+      onChanged: widget.onChanged,
+      decoration: InputDecoration(
+        prefixIcon: widget.icon != null
+            ? Icon(
+                widget.icon,
+                color: textColor,
+              )
+            : null,
+        suffixIcon: widget.isPassword ? _toggleVisibilityWidget() : null,
+        hintText: widget.label,
+        hintStyle: TextStyle(
+          color: textColor,
+          fontWeight: FontWeight.bold,
         ),
-        keyboardType: widget.keyboardType,
-        enabled: widget.onChanged != null,
-        controller: _controller,
-        obscureText: _visible,
-        onChanged: widget.onChanged,
-        decoration: InputDecoration(
-          prefixIcon: widget.icon != null
-              ? Icon(widget.icon, color: Theme.of(context).colorScheme.primary)
-              : null,
-          suffixIcon: widget.isPassword ? _toggleVisibilityWidget() : null,
-          hintText: widget.label,
-          helperText: widget.helpText,
-          helperMaxLines: 3,
-          fillColor: Theme.of(context).colorScheme.onBackground,
-          filled: true,
-          border: OutlineInputBorder(
-            gapPadding: 12,
-            borderRadius: BorderRadius.circular(20),
-            borderSide: BorderSide.none,
-          ),
-          errorText:
-              widget.errors?.isEmpty ?? true ? null : widget.errors?.join('\n'),
+        helperText: widget.helpText,
+        helperMaxLines: 3,
+        fillColor: backgroundColor,
+        filled: true,
+        border: OutlineInputBorder(
+          gapPadding: 12,
+          borderRadius: BorderRadius.circular(20),
+          borderSide: BorderSide.none,
+        ),
+        errorText:
+            widget.errors?.isEmpty ?? true ? null : widget.errors?.join('\n'),
+        errorStyle: TextStyle(
+          color: errorColor,
         ),
       ),
     );
@@ -75,7 +91,7 @@ class _LoginTextFieldState extends State<LoginTextField> {
         onTap: () => setState(() => _visible = !_visible),
         child: Icon(
           _visible ? Icons.visibility : Icons.visibility_off,
-          color: Theme.of(context).colorScheme.primary,
+          color: Get.find<ColorPalete>().textOnPrimary,
         ),
       );
 }
