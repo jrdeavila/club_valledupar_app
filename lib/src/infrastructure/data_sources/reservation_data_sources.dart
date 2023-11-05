@@ -6,8 +6,8 @@ JSON reservationToJson(Reservation data) => {
       "start_date": data.startDate,
       "end_date": data.endDate,
       "insume_area_id": data.insumeArea.id,
-      "type_reservation_id": data.typeReservation.id,
       "is_ever": data.isEver,
+      'is_all_day': data.isAllDay,
       "observations": data.observations,
     };
 
@@ -17,9 +17,9 @@ Reservation reservationFromJson(JSON data) => Reservation(
       id: data['id'],
       insumeArea: insumeAreaFromJson(data['insume_area']),
       isEver: data['is_ever'],
-      observations: data['observations'].cast<String>(),
+      isAllDay: data['is_all_day'],
+      observations: data['observations'],
       startDate: data['start_date'],
-      typeReservation: typeReservationFromJson(data['type_reservation']),
       updatedAt: data['updated_at'],
       user: partnerFromJson(data['user']),
     );
@@ -28,11 +28,5 @@ InsumeArea insumeAreaFromJson(JSON data) => InsumeArea(
       id: data['id'],
       name: data['name'],
       color: data['color'],
-      desc: data['desc'],
-    );
-
-TypeReservation typeReservationFromJson(JSON data) => TypeReservation(
-      id: data['id'],
-      name: data['name'],
       desc: data['desc'],
     );

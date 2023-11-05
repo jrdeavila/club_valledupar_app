@@ -13,80 +13,90 @@ class ReservationScreen extends GetView<ReservationController> {
       appBar: AppBar(
         toolbarHeight: 100,
         title: const Text('Tus Reservaciones'),
+        titleTextStyle: TextStyle(
+          fontSize: 30,
+          fontWeight: FontWeight.bold,
+          color: Get.find<ColorPalete>().textOnSecondary,
+        ),
         centerTitle: true,
-        actions: [
-          GestureDetector(
-              onTap: () {
-                controller.onCreateNew();
-              },
-              child: const Icon(
-                Icons.edit_calendar,
-                size: 30,
-              )),
-          const SizedBox(width: 20),
-        ],
       ),
       body: SingleChildScrollView(
-        child: Obx(() => Column(
-              children: [
-                Row(
-                  children: [
-                    const SizedBox(width: 20),
-                    Expanded(
-                      child: ReservationDetailsCard(
-                        title: "Pendientes",
-                        count: controller.pendingReservations.length,
-                        icon: Icons.pending,
-                        color: Theme.of(context).colorScheme.onSecondary,
-                        bgColor: Theme.of(context).colorScheme.secondary,
-                      ),
+        child: Obx(
+          () => Column(
+            children: [
+              Row(
+                children: [
+                  const SizedBox(width: 20),
+                  Expanded(
+                    child: ReservationDetailsCard(
+                      title: "Pendientes",
+                      count: controller.pendingReservations.length,
+                      icon: Icons.pending,
+                      color: Get.find<ColorPalete>().textOnSecondary,
+                      bgColor: Get.find<ColorPalete>().componentColor,
                     ),
-                    const SizedBox(width: 20),
-                    Expanded(
-                      child: ReservationDetailsCard(
+                  ),
+                  const SizedBox(width: 20),
+                  Expanded(
+                    child: ReservationDetailsCard(
                         title: "Realizadas",
                         count: controller.doneReservations.length,
                         icon: Icons.check_box,
-                        color: Theme.of(context).colorScheme.onSecondary,
-                        bgColor: Theme.of(context).colorScheme.secondary,
-                      ),
-                    ),
-                    const SizedBox(width: 20),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                _buildCalendar(context),
-                const SizedBox(height: 10),
-                Text(
-                  "Reservaciones para el ${controller.focusedDay.day}/${controller.focusedDay.month}/${controller.focusedDay.year}",
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                        color: Get.find<ColorPalete>().textOnSecondary,
+                        bgColor: Get.find<ColorPalete>().componentColor),
                   ),
+                  const SizedBox(width: 20),
+                ],
+              ),
+              const SizedBox(height: 20),
+              _buildCalendar(context),
+              const SizedBox(height: 10),
+              Text(
+                "Reservaciones para el ${controller.focusedDay.day}/${controller.focusedDay.month}/${controller.focusedDay.year}",
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
-                const SizedBox(height: 20),
-                Column(
-                  children: [
-                    ...controller.reservationsByDay.map((reservation) {
-                      return ReservationCard(
-                        title: reservation.typeReservation.name,
-                        desc: "Reservado para ${reservation.insumeArea.name}",
-                        isDone: controller.isDone(reservation.endDate),
-                        createdAt:
-                            "Reservado ${controller.timeAgo(reservation.createdAt!)}",
-                        color: controller.color(reservation.insumeArea.color),
-                        startTime: controller.hour(reservation.startDate),
-                        endTime: controller.hour(reservation.endDate),
-                        isEver: reservation.isEver,
-                        onDelete: () {
-                          controller.onDeleteReservation(reservation);
-                        },
-                      );
-                    }).toList(),
-                  ],
-                ),
-              ],
-            )),
+              ),
+              const SizedBox(height: 20),
+              Column(
+                children: [
+                  ...controller.reservationsByDay.map((reservation) {
+                    return ReservationCard(
+                      title: "Reservado para ${reservation.insumeArea.name}",
+                      desc: () {
+                        if (reservation.isEver) {
+                          return "Reservado para siempre";
+                        }
+                        if (reservation.isAllDay) {
+                          return "Reservacion para todo el dia";
+                        } else {
+                          return "Reservacion normal";
+                        }
+                      }(),
+                      isDone: controller.isDone(reservation.endDate),
+                      createdAt:
+                          "Reservado ${controller.timeAgo(reservation.createdAt!)}",
+                      startTime: controller.hour(reservation.startDate),
+                      endTime: controller.hour(reservation.endDate),
+                      isEver: reservation.isEver,
+                      onDelete: () {
+                        controller.onDeleteReservation(reservation);
+                      },
+                    );
+                  }).toList(),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          controller.onCreateNew();
+        },
+        backgroundColor: Get.find<ColorPalete>().componentColor,
+        child: const Icon(Icons.calendar_today),
       ),
     );
   }
@@ -96,15 +106,9 @@ class ReservationScreen extends GetView<ReservationController> {
       margin: const EdgeInsets.all(20.0),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.background,
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 10,
-              offset: const Offset(0, 5),
-            ),
-          ]),
+        color: Get.find<ColorPalete>().componentColor,
+        borderRadius: BorderRadius.circular(20),
+      ),
       child: TableCalendar<Reservation>(
         firstDay: DateTime.utc(2023, 1, 1),
         lastDay: DateTime.utc(2030, 1, 1),
@@ -114,14 +118,14 @@ class ReservationScreen extends GetView<ReservationController> {
           titleCentered: true,
           leftChevronIcon: Icon(
             Icons.chevron_left,
-            color: Theme.of(context).colorScheme.onSecondary,
+            color: Get.find<ColorPalete>().textOnSecondary,
           ),
           rightChevronIcon: Icon(
             Icons.chevron_right,
-            color: Theme.of(context).colorScheme.onSecondary,
+            color: Get.find<ColorPalete>().textOnSecondary,
           ),
           titleTextStyle: TextStyle(
-            color: Theme.of(context).colorScheme.onSecondary,
+            color: Get.find<ColorPalete>().textOnSecondary,
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
@@ -140,6 +144,16 @@ class ReservationScreen extends GetView<ReservationController> {
         },
         calendarFormat: controller.calendarFormat,
         currentDay: controller.focusedDay,
+        daysOfWeekStyle: DaysOfWeekStyle(
+          weekdayStyle: TextStyle(
+            color: Get.find<ColorPalete>().textOnSecondary,
+            fontWeight: FontWeight.bold,
+          ),
+          weekendStyle: TextStyle(
+            color: Get.find<ColorPalete>().textOnSecondary,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         onFormatChanged: (format) {
           controller.changeCalendarFormat(format);
         },

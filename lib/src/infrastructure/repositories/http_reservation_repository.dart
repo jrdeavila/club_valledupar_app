@@ -41,17 +41,3 @@ class HttpInsumeAreaRepository implements InsumeAreaRepository {
         value['data'].map<InsumeArea>((e) => insumeAreaFromJson(e)).toList());
   }
 }
-
-@Injectable(as: RespositoryTypesRepository)
-class HttpRespositoryTypesRepository implements RespositoryTypesRepository {
-  final HttpClient _httpClient;
-
-  HttpRespositoryTypesRepository(this._httpClient);
-  @override
-  Future<List<TypeReservation>> getTypes() {
-    return _httpClient.get<JSON>("/type-reservations").then((value) =>
-        value['data']
-            .map<TypeReservation>((e) => typeReservationFromJson(e))
-            .toList());
-  }
-}

@@ -101,29 +101,55 @@ class ReservationController extends GetxController {
 }
 
 class CreateReservationController extends GetxController {
+  final radioOptions = [
+    "Reservar todo el dia",
+    "Repetir indefinidamente",
+    "Reservacion normal"
+  ];
+
+  final observationsOptions = [
+    "Otro",
+    "Clases",
+    "Reunion familiar",
+    "Reunion de amigos",
+    "Reunion de trabajo",
+    "Reunion de negocios",
+  ];
   final ValidatorService _validatorService = getIt<ValidatorService>();
 
-  final Rx<TimeOfDay> _startTime = TimeOfDay.now().obs;
-  final Rx<TimeOfDay> _endTime = TimeOfDay.now().obs;
+  final Rx<TimeOfDay> _startTime = TimeOfDay(
+    hour: TimeOfDay.now().hour,
+    minute: 0,
+  ).obs;
+  final Rx<TimeOfDay> _endTime = TimeOfDay(
+    hour: TimeOfDay.now().hour + 2,
+    minute: 0,
+  ).obs;
   final Rx<DateTime> _date = DateTime.now().obs;
   final RxList<InsumeArea> _areas = <InsumeArea>[].obs;
-  final RxList<TypeReservation> _types = <TypeReservation>[].obs;
   final Rx<InsumeArea?> _area = Rx(null);
-  final Rx<TypeReservation?> _type = Rx(null);
-  final RxBool _isEver = true.obs;
-  final RxString _observations = "".obs;
+  late final RxString _observations = RxString(observationsOptions.first);
   final RxMap<String, List> _errors = RxMap();
+  final RxInt _radioValue = 2.obs;
+  final Rx<bool?> _isLoading = Rx(null);
 
   TimeOfDay get startTime => _startTime.value;
   TimeOfDay get endTime => _endTime.value;
   DateTime get date => _date.value;
   List<InsumeArea> get areas => _areas;
-  List<TypeReservation> get types => _types;
   List get errors => _errors.values.expand((element) => element).toList();
-  bool get isEver => _isEver.value;
+  int get radioValue => _radioValue.value;
+
+  void onRadioChange(int? value) {
+    _radioValue.value = value ?? 0;
+  }
 
   void changeStartTime(TimeOfDay time) {
     _startTime.value = time;
+    _endTime.value = TimeOfDay(
+      hour: time.hour + 2,
+      minute: time.minute,
+    );
   }
 
   void changeEndTime(TimeOfDay time) {
@@ -139,17 +165,8 @@ class CreateReservationController extends GetxController {
     _area.value = area;
   }
 
-  void changeType(int id) {
-    final type = _types.firstWhere((element) => element.id == id);
-    _type.value = type;
-  }
-
   void changeObservations(String value) {
     _observations.value = value;
-  }
-
-  void changeIsEver(bool value) {
-    _isEver.value = value;
   }
 
   @override
@@ -160,8 +177,20 @@ class CreateReservationController extends GetxController {
         _errors.addAll(value);
       },
     );
+
+    _isLoading.listen((value) {
+      if (value != null && !value) {
+        Get.back();
+        getIt<BannerService>().showBanner(
+          BannerData(
+            title: "Reserva creada",
+            message: "Reserva creada con exito",
+            type: BannerType.success,
+          ),
+        );
+      }
+    });
     _fetchInsumeAreas();
-    _fetchTypes();
   }
 
   void _fetchInsumeAreas() {
@@ -169,14 +198,6 @@ class CreateReservationController extends GetxController {
     fetchInsumeAreasUseCase().then((areas) {
       _areas.addAll(areas);
       _area.value = areas.first;
-    });
-  }
-
-  void _fetchTypes() {
-    final fetchTypesUseCase = getIt<FetchTypesUseCase>();
-    fetchTypesUseCase().then((types) {
-      _types.addAll(types);
-      _type.value = types.first;
     });
   }
 
@@ -189,23 +210,16 @@ class CreateReservationController extends GetxController {
       startDate: _dateTimeToString(date, startTime),
       endDate: _dateTimeToString(date, endTime),
       insumeArea: _area.value!,
-      typeReservation: _type.value!,
-      isEver: _isEver.value,
-      observations: [
-        _observations.value,
-      ],
+      isEver: _radioValue.value == 1,
+      isAllDay: _radioValue.value == 0,
+      observations: _observations.value,
     );
-
+    _isLoading.value = true;
     createReservationUseCase(reservation).then((value) {
+      _isLoading.value = false;
       Get.find<ReservationController>().saveReservation(value);
-      Get.back();
-      getIt<BannerService>().showBanner(
-        BannerData(
-          title: "Reserva creada",
-          message: "Reserva creada con exito",
-          type: BannerType.success,
-        ),
-      );
+    }).onError((error, stackTrace) {
+      _isLoading.value = false;
     });
   }
 

@@ -1,4 +1,6 @@
+import 'package:club_valledupar_app/lib.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ClockTimeCard extends StatelessWidget {
   const ClockTimeCard({
@@ -27,7 +29,7 @@ class ClockTimeCard extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.onBackground,
+          color: Get.find<ColorPalete>().componentColor,
           borderRadius: BorderRadius.circular(20),
         ),
         padding: const EdgeInsets.all(20),
@@ -42,18 +44,12 @@ class ClockTimeCard extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-            Row(
-              children: [
-                Text(time.hourOfPeriod.toString().padLeft(2, '0'),
-                    style: const TextStyle(fontSize: 25)),
-                const Text(' : ', style: TextStyle(fontSize: 25)),
-                Text(time.minute.toString().padLeft(2, '0'),
-                    style: const TextStyle(fontSize: 25)),
-                Text(
-                  time.period == DayPeriod.am ? ' AM' : ' PM',
-                  style: const TextStyle(fontSize: 25),
-                ),
-              ],
+            Text(
+              time.format(context).toUpperCase(),
+              style: const TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ],
         ),

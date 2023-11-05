@@ -8,11 +8,15 @@ class DropDownCard extends StatefulWidget {
     required this.label,
     required this.items,
     required this.onChangeId,
+    required this.labelModal,
+    required this.hintText,
   });
 
   final String label;
   final Iterable<DropDownCardItem> items;
   final void Function(int) onChangeId;
+  final String labelModal;
+  final String hintText;
 
   @override
   State<DropDownCard> createState() => _DropDownCardState();
@@ -35,7 +39,7 @@ class _DropDownCardState extends State<DropDownCard> {
         width: double.infinity,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: Theme.of(context).colorScheme.onBackground,
+          color: Get.find<ColorPalete>().componentColor,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,7 +48,7 @@ class _DropDownCardState extends State<DropDownCard> {
               widget.label,
               style: TextStyle(
                 fontSize: 14,
-                color: Theme.of(context).colorScheme.primary,
+                color: Get.find<ColorPalete>().textOnSecondary,
               ),
             ),
             const SizedBox(height: 10),
@@ -53,14 +57,15 @@ class _DropDownCardState extends State<DropDownCard> {
                   .firstWhere((e) => e.id == _currentId,
                       orElse: () => DropDownCardItem(
                             id: 0,
-                            title: "Selecciona un tipo de reserva",
+                            title: widget.hintText,
                             desc: "",
                           ))
                   .title
                   .toUpperCase(),
               style: TextStyle(
                 fontSize: 24,
-                color: Theme.of(context).colorScheme.primary,
+                fontWeight: FontWeight.bold,
+                color: Get.find<ColorPalete>().textOnSecondary,
               ),
             ),
           ],
@@ -69,63 +74,73 @@ class _DropDownCardState extends State<DropDownCard> {
       onTap: () {
         showModalBottomSheet(
           context: context,
-          backgroundColor: Theme.of(context).colorScheme.onBackground,
+          backgroundColor: Get.find<ColorPalete>().componentColor,
           builder: (context) {
             return Container(
               padding: const EdgeInsets.all(20),
               child: Column(
-                mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    "Selecciona un tipo de reserva",
+                    widget.labelModal,
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.primary,
+                      color: Get.find<ColorPalete>().textOnSecondary,
                     ),
                   ),
                   const SizedBox(height: 20),
-                  ...widget.items.map(
-                    (e) => GestureDetector(
-                      onTap: () {
-                        widget.onChangeId(e.id);
-                        setState(() {
-                          _currentId = e.id;
-                        });
-                        Get.back();
-                      },
+                  Expanded(
+                    child: SingleChildScrollView(
                       child: Column(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          Container(
-                            margin: const EdgeInsets.only(bottom: 10),
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 20.0),
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  e.title,
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color:
-                                        Theme.of(context).colorScheme.onPrimary,
+                          ...widget.items.map(
+                            (e) => GestureDetector(
+                              onTap: () {
+                                widget.onChangeId(e.id);
+                                setState(() {
+                                  _currentId = e.id;
+                                });
+                                Get.back();
+                              },
+                              child: Column(
+                                children: [
+                                  Container(
+                                    margin: const EdgeInsets.only(bottom: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10.0, horizontal: 20.0),
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: Get.find<ColorPalete>()
+                                          .componentColor,
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          e.title,
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                            color: Get.find<ColorPalete>()
+                                                .textOnSecondary,
+                                          ),
+                                        ),
+                                        Text(
+                                          e.desc,
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Get.find<ColorPalete>()
+                                                .textOnSecondary,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  e.desc,
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color:
-                                        Theme.of(context).colorScheme.onPrimary,
-                                  ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ],

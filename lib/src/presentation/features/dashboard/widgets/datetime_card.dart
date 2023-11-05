@@ -1,3 +1,4 @@
+import 'package:club_valledupar_app/lib.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -16,6 +17,9 @@ class DateTimeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dateStr = DateFormat('yyyy-MM-dd').format(date);
+    final dayName = DateFormat('EEEE', 'es_CO').format(date).capitalize!;
+    final completeDate = '$dateStr - $dayName';
     return GestureDetector(
       onTap: () {
         showDatePicker(
@@ -30,8 +34,9 @@ class DateTimeCard extends StatelessWidget {
         });
       },
       child: Container(
+        width: double.infinity,
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.onBackground,
+          color: Get.find<ColorPalete>().componentColor,
           borderRadius: BorderRadius.circular(20),
         ),
         padding: const EdgeInsets.all(20),
@@ -40,27 +45,12 @@ class DateTimeCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(label, style: const TextStyle(fontSize: 14.0)),
-            Row(
-              children: [
-                Text(date.day.toString().padLeft(2, '0'),
-                    style: const TextStyle(fontSize: 30)),
-                const Text('/', style: TextStyle(fontSize: 30)),
-                Text(date.month.toString().padLeft(2, '0'),
-                    style: const TextStyle(fontSize: 30)),
-                const Text('/', style: TextStyle(fontSize: 30)),
-                Text(
-                  date.year.toString(),
-                  style: const TextStyle(fontSize: 30),
-                ),
-                const Text(' - ', style: TextStyle(fontSize: 30)),
-                // Day Name
-                Expanded(
-                  child: Text(
-                    DateFormat('EEEE', 'es_CO').format(date).capitalize!,
-                    style: const TextStyle(fontSize: 30),
-                  ),
-                ),
-              ],
+            Text(
+              completeDate.toUpperCase(),
+              style: const TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ],
         ),

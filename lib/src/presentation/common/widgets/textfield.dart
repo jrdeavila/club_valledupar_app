@@ -1,4 +1,6 @@
+import 'package:club_valledupar_app/lib.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class AppTxtField extends StatelessWidget {
   const AppTxtField({
@@ -28,11 +30,15 @@ class AppTxtField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textColor = Theme.of(context).colorScheme.primary;
+    final textColor = Get.find<ColorPalete>().textOnSecondary;
+    final bgColor = Get.find<ColorPalete>().componentColor;
     return TextFormField(
       style: TextStyle(
-        color: Theme.of(context).colorScheme.primary,
+        color: textColor,
+        fontSize: 18.0,
       ),
+      cursorColor: textColor,
+      cursorWidth: 2,
       initialValue: initialValue,
       maxLength: maxLength,
       minLines: minLines,
@@ -41,9 +47,7 @@ class AppTxtField extends StatelessWidget {
       obscureText: isPassword,
       decoration: InputDecoration(
         filled: true,
-        fillColor: secondary
-            ? Theme.of(context).colorScheme.secondary.withOpacity(0.3)
-            : Theme.of(context).colorScheme.onBackground,
+        fillColor: bgColor,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide.none,

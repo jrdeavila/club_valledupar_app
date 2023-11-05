@@ -11,6 +11,11 @@ class CreateReservationScreen extends GetView<CreateReservationController> {
       appBar: AppBar(
         toolbarHeight: 100,
         title: const Text('Datos de la reserva'),
+        titleTextStyle: TextStyle(
+          fontSize: 30,
+          fontWeight: FontWeight.bold,
+          color: Get.find<ColorPalete>().textOnSecondary,
+        ),
         centerTitle: true,
       ),
       body: Obx(
@@ -25,7 +30,7 @@ class CreateReservationScreen extends GetView<CreateReservationController> {
                     width: double.infinity,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      color: Theme.of(context).colorScheme.error,
+                      color: Get.find<ColorPalete>().componentOnError,
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,14 +40,14 @@ class CreateReservationScreen extends GetView<CreateReservationController> {
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.onError,
+                            color: Get.find<ColorPalete>().textOnError,
                           ),
                         ),
                         ...controller.errors.map(
                           (e) => Text(
-                            e,
+                            "${controller.errors.indexOf(e) + 1}. $e",
                             style: TextStyle(
-                              color: Theme.of(context).colorScheme.onError,
+                              color: Get.find<ColorPalete>().textOnError,
                               fontSize: 16.0,
                             ),
                           ),
@@ -84,24 +89,11 @@ class CreateReservationScreen extends GetView<CreateReservationController> {
                   },
                 ),
                 const SizedBox(height: 20),
-                if (controller.types.isNotEmpty)
-                  DropDownCard(
-                    label: "Tipo de reserva",
-                    items: controller.types.map(
-                      (e) => DropDownCardItem(
-                        id: e.id,
-                        title: e.name,
-                        desc: e.desc,
-                      ),
-                    ),
-                    onChangeId: (value) {
-                      controller.changeType(value);
-                    },
-                  ),
-                const SizedBox(height: 20),
                 if (controller.areas.isNotEmpty)
                   DropDownCard(
                     label: "Insumo a reservar",
+                    hintText: "Selecciona un insumo",
+                    labelModal: "Selecciona un insumo",
                     items: controller.areas.map(
                       (e) => DropDownCardItem(
                         id: e.id,
@@ -114,42 +106,39 @@ class CreateReservationScreen extends GetView<CreateReservationController> {
                     },
                   ),
                 const SizedBox(height: 20),
-                Row(
-                  children: [
-                    Expanded(
-                      child: AppRoundedButton(
-                        label: "Repetir",
-                        padding: EdgeInsets.zero,
-                        isBordered: !controller.isEver,
-                        radius: 20.0,
-                        onTap: () {
-                          controller.changeIsEver(true);
-                        },
+                ...controller.radioOptions.map((e) {
+                  return Row(
+                    children: [
+                      Radio<int>(
+                        value: controller.radioOptions.indexOf(e),
+                        groupValue: controller.radioValue,
+                        onChanged: (value) => controller.onRadioChange(value),
+                      ),
+                      Text(
+                        e,
+                        style: TextStyle(
+                          color: Get.find<ColorPalete>().textOnSecondary,
+                        ),
+                      ),
+                    ],
+                  );
+                }).toList(),
+                const SizedBox(height: 20),
+                DropDownCard(
+                    label: "Motivo",
+                    hintText: "Selecciona un motivo",
+                    labelModal: "Selecciona un motivo",
+                    items: controller.observationsOptions.map(
+                      (e) => DropDownCardItem(
+                        id: controller.observationsOptions.indexOf(e),
+                        title: e,
+                        desc: e,
                       ),
                     ),
-                    const SizedBox(width: 20),
-                    Expanded(
-                      child: AppRoundedButton(
-                        isBordered: controller.isEver,
-                        label: "No repetir",
-                        padding: EdgeInsets.zero,
-                        radius: 20.0,
-                        onTap: () {
-                          controller.changeIsEver(false);
-                        },
-                      ),
-                    )
-                  ],
-                ),
-                const SizedBox(height: 20),
-                AppTxtField(
-                  onChange: (value) {
-                    controller.changeObservations(value);
-                  },
-                  hintText: "Observaciones",
-                  minLines: 5,
-                  maxLines: 5,
-                ),
+                    onChangeId: (value) {
+                      controller.changeObservations(
+                          controller.observationsOptions[value]);
+                    })
               ],
             ),
           ),

@@ -1,4 +1,6 @@
+import 'package:club_valledupar_app/lib.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ReservationCard extends StatelessWidget {
   final String title;
@@ -8,7 +10,6 @@ class ReservationCard extends StatelessWidget {
   final bool isDone;
   final String createdAt;
   final bool isEver;
-  final int color;
   final void Function() onDelete;
 
   const ReservationCard({
@@ -17,7 +18,6 @@ class ReservationCard extends StatelessWidget {
     required this.desc,
     required this.isDone,
     required this.createdAt,
-    required this.color,
     required this.onDelete,
     required this.startTime,
     required this.endTime,
@@ -26,23 +26,16 @@ class ReservationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textColor = Colors.grey[600];
-    final color = Color(this.color);
+    final textColor = Get.find<ColorPalete>().textOnSecondary;
     return GestureDetector(
       onLongPress: onDelete,
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.background,
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                blurRadius: 10,
-                offset: const Offset(0, 5),
-              ),
-            ]),
+          color: Get.find<ColorPalete>().componentColor,
+          borderRadius: BorderRadius.circular(20),
+        ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -60,28 +53,11 @@ class ReservationCard extends StatelessWidget {
                   const SizedBox(
                     height: 10.0,
                   ),
-                  Row(
-                    children: [
-                      Container(
-                        height: 20,
-                        width: 20,
-                        decoration: BoxDecoration(
-                          color: color,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                        child: Text(
-                          desc,
-                          style: TextStyle(
-                            color: textColor,
-                          ),
-                        ),
-                      ),
-                    ],
+                  Text(
+                    desc,
+                    style: TextStyle(
+                      color: textColor,
+                    ),
                   ),
                   const SizedBox(height: 20),
                   Text(

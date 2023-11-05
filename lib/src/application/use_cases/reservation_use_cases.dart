@@ -35,17 +35,6 @@ class FetchInsumeAreasUseCase {
 }
 
 @injectable
-class FetchTypesUseCase {
-  final RespositoryTypesRepository _typeRepository;
-
-  FetchTypesUseCase(this._typeRepository);
-
-  Future<List<TypeReservation>> call() {
-    return _typeRepository.getTypes();
-  }
-}
-
-@injectable
 class DeleteReservationUseCase {
   final ReservationRepository _reservationRepository;
 

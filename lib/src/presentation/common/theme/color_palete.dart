@@ -49,6 +49,7 @@ abstract class AppTheme {
     titleTextStyle: TextStyle(
       fontSize: 20,
       fontWeight: FontWeight.bold,
+      fontFamily: 'Poppins',
     ),
   );
 
