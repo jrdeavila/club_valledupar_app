@@ -46,6 +46,7 @@ abstract class AppTheme {
   static const AppBarTheme appBarTheme = AppBarTheme(
     backgroundColor: Colors.transparent,
     elevation: 0,
+    surfaceTintColor: Colors.transparent,
     titleTextStyle: TextStyle(
       fontSize: 20,
       fontWeight: FontWeight.bold,

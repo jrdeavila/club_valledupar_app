@@ -10,35 +10,49 @@ class ResturantScreen extends GetView<ResturantController> {
     return Obx(
       () => Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          title: const Text('Restaurante'),
-          centerTitle: true,
-          titleTextStyle: TextStyle(
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
-            color: Get.find<ColorPalete>().textOnPrimary,
-          ),
-          leading: IconButton(
-            onPressed: () {
-              Get.back();
-            },
-            icon: Icon(
-              Icons.arrow_back,
-              color: Get.find<ColorPalete>().textOnPrimary,
-            ),
-          ),
-          actions: [
-            IconButton(
-              onPressed: () {
-                controller.toggleShoppingCart();
-              },
-              icon: Icon(
-                Icons.shopping_cart,
-                color: Get.find<ColorPalete>().textOnPrimary,
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(50),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        controller.currentIndex == 0
+                            ? "Restaurante"
+                            : "Carrito de Compras",
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          color: Get.find<ColorPalete>().textOnPrimary,
+                        ),
+                      ),
+                    ),
+                    if (controller.currentIndex == 0)
+                      IconButton(
+                        onPressed: () {
+                          controller.toggleShoppingCart();
+                        },
+                        icon: Icon(
+                          Icons.shopping_cart,
+                          color: Get.find<ColorPalete>().textOnPrimary,
+                        ),
+                      ),
+                  ],
+                ),
               ),
             ),
-          ],
-        ),
+            leading: BackButton(
+              color: Get.find<ColorPalete>().textOnPrimary,
+              onPressed: () {
+                if (controller.currentIndex == 1) {
+                  controller.toggleShoppingCart();
+                  return;
+                } else {
+                  Get.back();
+                }
+              },
+            )),
         extendBodyBehindAppBar: true,
         body: Stack(
           fit: StackFit.expand,
@@ -59,7 +73,11 @@ class ResturantScreen extends GetView<ResturantController> {
               children: [
                 if (controller.currentIndex == 0)
                   const SizedBox(
-                    height: 100,
+                    height: 160,
+                  ),
+                if (controller.currentIndex == 1)
+                  const SizedBox(
+                    height: 30,
                   ),
                 Expanded(
                   child: IndexedStack(

@@ -9,87 +9,121 @@ class ReservationScreen extends GetView<ReservationController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.onPrimary,
-      appBar: AppBar(
-        toolbarHeight: 100,
-        title: const Text('Tus Reservaciones'),
-        titleTextStyle: TextStyle(
-          fontSize: 30,
-          fontWeight: FontWeight.bold,
-          color: Get.find<ColorPalete>().textOnSecondary,
-        ),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        child: Obx(
-          () => Column(
-            children: [
-              Row(
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          const DecoratedBox(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/img/reservaciones.jpg"),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          const BlurredContainer(),
+          SingleChildScrollView(
+            child: Obx(
+              () => Column(
                 children: [
-                  const SizedBox(width: 20),
-                  Expanded(
-                    child: ReservationDetailsCard(
-                      title: "Pendientes",
-                      count: controller.pendingReservations.length,
-                      icon: Icons.pending,
-                      color: Get.find<ColorPalete>().textOnSecondary,
-                      bgColor: Get.find<ColorPalete>().componentColor,
+                  SizedBox(
+                    height: 160.0,
+                    child: AppBar(
+                      leading: BackButton(
+                        color: Get.find<ColorPalete>().textOnPrimary,
+                        onPressed: () {
+                          Get.back();
+                        },
+                      ),
+                      bottom: PreferredSize(
+                        preferredSize: const Size.fromHeight(50),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                          child: Row(
+                            children: [
+                              Text(
+                                "Tus Reservaciones",
+                                style: TextStyle(
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold,
+                                  color: Get.find<ColorPalete>().textOnPrimary,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                  const SizedBox(width: 20),
-                  Expanded(
-                    child: ReservationDetailsCard(
-                        title: "Realizadas",
-                        count: controller.doneReservations.length,
-                        icon: Icons.check_box,
-                        color: Get.find<ColorPalete>().textOnSecondary,
-                        bgColor: Get.find<ColorPalete>().componentColor),
+                  const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      const SizedBox(width: 20),
+                      Expanded(
+                        child: ReservationDetailsCard(
+                          title: "Pendientes",
+                          count: controller.pendingReservations.length,
+                          icon: Icons.pending,
+                          color: Get.find<ColorPalete>().textOnSecondary,
+                          bgColor: Get.find<ColorPalete>().componentColor,
+                        ),
+                      ),
+                      const SizedBox(width: 20),
+                      Expanded(
+                        child: ReservationDetailsCard(
+                            title: "Realizadas",
+                            count: controller.doneReservations.length,
+                            icon: Icons.check_box,
+                            color: Get.find<ColorPalete>().textOnSecondary,
+                            bgColor: Get.find<ColorPalete>().componentColor),
+                      ),
+                      const SizedBox(width: 20),
+                    ],
                   ),
-                  const SizedBox(width: 20),
+                  const SizedBox(height: 20),
+                  _buildCalendar(context),
+                  const SizedBox(height: 10),
+                  Text(
+                    "Reservaciones para el ${controller.focusedDay.day}/${controller.focusedDay.month}/${controller.focusedDay.year}",
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Column(
+                    children: [
+                      ...controller.reservationsByDay.map((reservation) {
+                        return ReservationCard(
+                          title:
+                              "Reservado para ${reservation.insumeArea.name}",
+                          desc: () {
+                            if (reservation.isEver) {
+                              return "Reservado para siempre";
+                            }
+                            if (reservation.isAllDay) {
+                              return "Reservacion para todo el dia";
+                            } else {
+                              return "Reservacion normal";
+                            }
+                          }(),
+                          isDone: controller.isDone(reservation.endDate),
+                          createdAt:
+                              "Reservado ${controller.timeAgo(reservation.createdAt!)}",
+                          startTime: controller.hour(reservation.startDate),
+                          endTime: controller.hour(reservation.endDate),
+                          isEver: reservation.isEver,
+                          onDelete: () {
+                            controller.onDeleteReservation(reservation);
+                          },
+                        );
+                      }).toList(),
+                    ],
+                  ),
                 ],
               ),
-              const SizedBox(height: 20),
-              _buildCalendar(context),
-              const SizedBox(height: 10),
-              Text(
-                "Reservaciones para el ${controller.focusedDay.day}/${controller.focusedDay.month}/${controller.focusedDay.year}",
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 20),
-              Column(
-                children: [
-                  ...controller.reservationsByDay.map((reservation) {
-                    return ReservationCard(
-                      title: "Reservado para ${reservation.insumeArea.name}",
-                      desc: () {
-                        if (reservation.isEver) {
-                          return "Reservado para siempre";
-                        }
-                        if (reservation.isAllDay) {
-                          return "Reservacion para todo el dia";
-                        } else {
-                          return "Reservacion normal";
-                        }
-                      }(),
-                      isDone: controller.isDone(reservation.endDate),
-                      createdAt:
-                          "Reservado ${controller.timeAgo(reservation.createdAt!)}",
-                      startTime: controller.hour(reservation.startDate),
-                      endTime: controller.hour(reservation.endDate),
-                      isEver: reservation.isEver,
-                      onDelete: () {
-                        controller.onDeleteReservation(reservation);
-                      },
-                    );
-                  }).toList(),
-                ],
-              ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
