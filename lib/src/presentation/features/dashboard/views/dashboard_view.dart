@@ -50,10 +50,18 @@ class DashboardView extends GetView<DashboardController> {
                 ),
               ),
             ),
+            const SliverToBoxAdapter(
+              child: Divider(),
+            ),
+            const _DashboardSectionDesc(
+              title: "Restaurante y Pedidos",
+              desc: "Echa un vistazo a nuestros servicios internos",
+              icon: Icons.swap_horiz,
+            ),
             SliverToBoxAdapter(
               child: SizedBox(
-                height: 400.0,
                 width: MediaQuery.of(context).size.width,
+                height: 400,
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: [
@@ -75,6 +83,15 @@ class DashboardView extends GetView<DashboardController> {
                 ),
               ),
             ),
+            const SliverToBoxAdapter(
+              child: Divider(),
+            ),
+            const _DashboardSectionDesc(
+              title: "Insumos del club",
+              desc:
+                  "Reserva y utiliza los espacios del club para que disfrutes con tus amigos y familiares",
+              icon: Icons.swap_horiz,
+            ),
             SliverToBoxAdapter(
               child: DashboardCard(
                 image: "assets/img/reservation.jpg",
@@ -88,6 +105,57 @@ class DashboardView extends GetView<DashboardController> {
           ],
         ),
       ],
+    );
+  }
+}
+
+class _DashboardSectionDesc extends StatelessWidget {
+  const _DashboardSectionDesc({
+    required this.title,
+    required this.desc,
+    required this.icon,
+  });
+
+  final String title;
+  final String desc;
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    color: Get.find<ColorPalete>().textOnSecondary,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const Spacer(),
+                Icon(
+                  icon,
+                  color: Get.find<ColorPalete>().textOnSecondary,
+                ),
+              ],
+            ),
+            const SizedBox(height: 10.0),
+            Text(
+              desc,
+              style: TextStyle(
+                color: Get.find<ColorPalete>().textOnSecondary,
+                fontSize: 15.0,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
