@@ -20,7 +20,9 @@ class OrderScreen extends GetView<OrderController> {
               ),
             ),
           ),
-          const BlurredContainer(),
+          const BlurredContainer(
+            radius: 0.0,
+          ),
           Obx(() => CustomScrollView(
                 slivers: [
                   SliverAppBar.large(

@@ -20,7 +20,9 @@ class ReservationScreen extends GetView<ReservationController> {
               ),
             ),
           ),
-          const BlurredContainer(),
+          const BlurredContainer(
+            radius: 0,
+          ),
           SingleChildScrollView(
             child: Obx(
               () => Column(
