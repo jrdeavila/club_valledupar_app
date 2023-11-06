@@ -16,7 +16,7 @@ class ColorPalete {
 
 abstract class AppTheme {
   static final ThemeData themeData = ThemeData(
-    scaffoldBackgroundColor: colorScheme.background,
+    colorScheme: colorScheme,
     fontFamily: 'Poppins',
     // colorScheme: colorScheme,
     appBarTheme: appBarTheme,
@@ -34,8 +34,8 @@ abstract class AppTheme {
     surface: Color.fromARGB(255, 119, 119, 119),
     background: Color.fromARGB(255, 253, 253, 253),
     error: Color.fromARGB(255, 207, 100, 100),
-    onPrimary: Color.fromARGB(255, 245, 245, 245),
     onSecondary: Color.fromARGB(255, 54, 56, 56),
+    onPrimary: Color.fromARGB(255, 54, 56, 56),
     onSurface: Color.fromARGB(255, 70, 160, 202),
     onBackground: Color.fromARGB(255, 214, 230, 245),
     onError: Color.fromARGB(255, 247, 247, 247),

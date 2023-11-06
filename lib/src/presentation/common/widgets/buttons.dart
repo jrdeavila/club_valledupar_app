@@ -57,7 +57,7 @@ class AppRoundedButton extends StatelessWidget {
                         ? backgroundColor ??
                             Theme.of(context).colorScheme.primary
                         : foregroundColor ??
-                            Theme.of(context).colorScheme.onPrimary,
+                            Theme.of(context).colorScheme.background,
                     fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.center,

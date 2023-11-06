@@ -44,12 +44,19 @@ class DateTimeCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(label, style: const TextStyle(fontSize: 14.0)),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 14.0,
+                color: Get.find<ColorPalete>().textOnSecondary,
+              ),
+            ),
             Text(
               completeDate.toUpperCase(),
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
+                color: Get.find<ColorPalete>().textOnSecondary,
               ),
             ),
           ],

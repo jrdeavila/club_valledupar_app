@@ -27,6 +27,7 @@ class ShoppingCartView extends GetView<ShoppingCartController> {
         );
       }
       return ListView.builder(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
         itemBuilder: (context, index) {
           final item = controller.orderDetails[index];
           return ShoppingCartItem(

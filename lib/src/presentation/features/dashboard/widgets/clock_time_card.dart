@@ -39,16 +39,18 @@ class ClockTimeCard extends StatelessWidget {
           children: [
             Text(
               label,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 14.0,
                 overflow: TextOverflow.ellipsis,
+                color: Get.find<ColorPalete>().textOnSecondary,
               ),
             ),
             Text(
               time.format(context).toUpperCase(),
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
+                color: Get.find<ColorPalete>().textOnSecondary,
               ),
             ),
           ],

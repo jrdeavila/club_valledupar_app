@@ -9,9 +9,8 @@ class DashboardScreen extends GetView<DashboardController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.onPrimary,
-      body: const DashboardView(),
+    return const Scaffold(
+      body: DashboardView(),
     );
   }
 }

@@ -71,14 +71,9 @@ class ResturantScreen extends GetView<ResturantController> {
             ),
             Column(
               children: [
-                if (controller.currentIndex == 0)
-                  const SizedBox(
-                    height: 160,
-                  ),
-                if (controller.currentIndex == 1)
-                  const SizedBox(
-                    height: 30,
-                  ),
+                const SizedBox(
+                  height: 160,
+                ),
                 Expanded(
                   child: IndexedStack(
                     index: controller.currentIndex,

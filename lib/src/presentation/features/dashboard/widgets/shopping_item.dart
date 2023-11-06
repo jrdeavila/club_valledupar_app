@@ -1,5 +1,6 @@
 import 'package:club_valledupar_app/lib.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ShoppingCartItem extends StatelessWidget {
   const ShoppingCartItem({
@@ -23,12 +24,15 @@ class ShoppingCartItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textColor = Theme.of(context).colorScheme.onSecondary;
+    final textColor = Get.find<ColorPalete>().textOnSecondary;
     return Padding(
       padding: const EdgeInsets.only(bottom: 10.0),
-      child: BlurredContainer(
+      child: Container(
         height: 220,
-        radius: 0,
+        decoration: BoxDecoration(
+          color: Get.find<ColorPalete>().componentColor,
+          borderRadius: BorderRadius.circular(20),
+        ),
         width: double.infinity,
         child: Padding(
           padding: const EdgeInsets.symmetric(

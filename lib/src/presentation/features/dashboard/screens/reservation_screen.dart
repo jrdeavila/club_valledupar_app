@@ -86,9 +86,10 @@ class ReservationScreen extends GetView<ReservationController> {
                   const SizedBox(height: 10),
                   Text(
                     "Reservaciones para el ${controller.focusedDay.day}/${controller.focusedDay.month}/${controller.focusedDay.year}",
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
+                      color: Get.find<ColorPalete>().textOnSecondary,
                     ),
                   ),
                   const SizedBox(height: 20),
