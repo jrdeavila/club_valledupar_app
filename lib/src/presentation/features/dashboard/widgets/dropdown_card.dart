@@ -10,6 +10,7 @@ class DropDownCard extends StatefulWidget {
     required this.onChangeId,
     required this.labelModal,
     required this.hintText,
+    this.innerWidgets,
   });
 
   final String label;
@@ -17,6 +18,7 @@ class DropDownCard extends StatefulWidget {
   final void Function(int) onChangeId;
   final String labelModal;
   final String hintText;
+  final List<Widget>? innerWidgets;
 
   @override
   State<DropDownCard> createState() => _DropDownCardState();
@@ -28,7 +30,11 @@ class _DropDownCardState extends State<DropDownCard> {
   @override
   void initState() {
     super.initState();
-    _currentId = widget.items.first.id;
+    if (widget.items.isNotEmpty) {
+      _currentId = widget.items.first.id;
+    } else {
+      _currentId = 0;
+    }
   }
 
   @override
@@ -88,6 +94,8 @@ class _DropDownCardState extends State<DropDownCard> {
                       color: Get.find<ColorPalete>().textOnSecondary,
                     ),
                   ),
+                  const SizedBox(height: 10),
+                  ...widget.innerWidgets ?? [],
                   const SizedBox(height: 20),
                   Expanded(
                     child: SingleChildScrollView(
@@ -103,43 +111,9 @@ class _DropDownCardState extends State<DropDownCard> {
                                 });
                                 Get.back();
                               },
-                              child: Column(
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.only(bottom: 10),
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10.0, horizontal: 20.0),
-                                    width: double.infinity,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      color: Get.find<ColorPalete>()
-                                          .componentColor,
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          e.title,
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                            color: Get.find<ColorPalete>()
-                                                .textOnSecondary,
-                                          ),
-                                        ),
-                                        Text(
-                                          e.desc,
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Get.find<ColorPalete>()
-                                                .textOnSecondary,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
+                              child: DropDownCardModalItem(
+                                title: e.title,
+                                desc: e.desc,
                               ),
                             ),
                           ),
@@ -153,6 +127,54 @@ class _DropDownCardState extends State<DropDownCard> {
           },
         );
       },
+    );
+  }
+}
+
+class DropDownCardModalItem extends StatelessWidget {
+  const DropDownCardModalItem({
+    super.key,
+    required this.title,
+    required this.desc,
+    this.selected = false,
+  });
+
+  final String title;
+  final String desc;
+  final bool selected;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+      width: double.infinity,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: selected
+            ? Theme.of(context).primaryColor.withOpacity(0.1)
+            : Get.find<ColorPalete>().componentColor,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Get.find<ColorPalete>().textOnSecondary,
+            ),
+          ),
+          Text(
+            desc,
+            style: TextStyle(
+              fontSize: 14,
+              color: Get.find<ColorPalete>().textOnSecondary,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

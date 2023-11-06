@@ -8,7 +8,7 @@ Order orderFromJson(JSON json) => Order(
       ),
       status: json['status'],
       address: json['address'],
-      isDomicile: json['is_domicile'],
+      type: json['type'],
       createdAt: json['created_at'],
     );
 
@@ -26,7 +26,7 @@ JSON orderToJson(Order order) => {
       ),
       'status': order.status,
       'address': order.address,
-      "is_domicile": order.isDomicile,
+      'type': order.type,
     };
 
 JSON orderDetailToJson(OrderDetail orderDetail) => {

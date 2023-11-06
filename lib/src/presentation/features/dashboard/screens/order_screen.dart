@@ -70,7 +70,8 @@ class OrderScreen extends GetView<OrderController> {
                             isCancelable: order.status == "pendiente",
                             date: controller.formatDate(order.createdAt!),
                             total: order.total,
-                            image: order.details.first.product.image,
+                            image: order.details.first.product.image ??
+                                "https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found.jpg",
                             onCancel: () {
                               controller.cancelOrder(order);
                             },

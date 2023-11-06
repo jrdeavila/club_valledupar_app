@@ -6,7 +6,7 @@ class Order {
   final String? address;
   final Partner partner;
   final List<OrderDetail> details;
-  final bool isDomicile;
+  final String type;
   final String? createdAt;
 
   Order({
@@ -15,7 +15,7 @@ class Order {
     required this.address,
     required this.partner,
     required this.details,
-    required this.isDomicile,
+    required this.type,
     this.createdAt,
   });
 
@@ -25,12 +25,14 @@ class Order {
 class OrderDetail {
   final String id;
   final MenuProduct product;
+  final String? observation;
   int quantity;
 
   OrderDetail({
     required this.id,
     required this.product,
     required this.quantity,
+    this.observation,
   });
 
   double get total => product.price * quantity;

@@ -2,15 +2,20 @@ import 'package:club_valledupar_app/lib.dart';
 import 'package:get/get.dart';
 
 class ShoppingCartController extends GetxController {
+  final radioOptions = {
+    "domicilio": "Domicilio",
+    "club": "Interno (Club)",
+    "reservacion": "Reservación",
+  };
   final RxList<OrderDetail> _orderDetails = <OrderDetail>[].obs;
-  final RxBool _isDomicile = false.obs;
+  final RxString _orderType = "club".obs;
   final RxString _address = "".obs;
   final ValidatorService _validatorService = getIt();
 
   final RxMap<String, dynamic> _errors = <String, dynamic>{}.obs;
 
+  String get orderType => _orderType.value;
   List<OrderDetail> get orderDetails => _orderDetails;
-  bool get isDomicile => _isDomicile.value;
 
   String get address => _address.value;
 
@@ -26,22 +31,24 @@ class ShoppingCartController extends GetxController {
         (previousValue, element) => previousValue + element.quantity,
       );
 
-  void addOrderDetail(OrderDetail orderDetail) {
+  void toggleOrderDetail(OrderDetail orderDetail) {
     final exists = _orderDetails.any((element) => element.id == orderDetail.id);
     if (exists) {
-      final getCurrentIndex = _orderDetails.indexWhere(
-        (element) => element.id == orderDetail.id,
-      );
-      orderDetail.addOrderDetail(_orderDetails[getCurrentIndex]);
-      _orderDetails.insert(getCurrentIndex, orderDetail);
+      _orderDetails.removeWhere((element) => element.id == orderDetail.id);
     } else {
       _orderDetails.add(orderDetail);
     }
   }
 
-  void setDomicile(bool isDomicile) => _isDomicile.value = isDomicile;
+  void setOrderType(String orderType) {
+    _validatorService.deleteErrors();
+    _orderType.value = orderType;
+  }
 
-  void setAddress(String address) => _address.value = address;
+  void setAddress(String address) {
+    _validatorService.deleteErrors();
+    _address.value = address;
+  }
 
   void removeOrderDetail(OrderDetail orderDetail) {
     _orderDetails.removeWhere((element) => element.id == orderDetail.id);
@@ -56,6 +63,19 @@ class ShoppingCartController extends GetxController {
   void decreaseOrderDetail(OrderDetail orderDetail) {
     orderDetail.decreaseQuantity();
     _orderDetails.refresh();
+  }
+
+  bool productIsInShoppingCart(MenuProduct product) {
+    return orderDetails.any((element) => element.id == product.id);
+  }
+
+  void addProductToShopping(MenuProduct product) {
+    final orderDetail = OrderDetail(
+      id: product.id,
+      product: product,
+      quantity: 1,
+    );
+    toggleOrderDetail(orderDetail);
   }
 
   @override
@@ -75,7 +95,7 @@ class ShoppingCartController extends GetxController {
       address: address,
       partner: partner!,
       details: _orderDetails,
-      isDomicile: isDomicile,
+      type: orderType,
     );
 
     final createOrderUseCase = getIt<CreateOrderUseCase>();
@@ -94,11 +114,22 @@ class ShoppingCartController extends GetxController {
 
   void _clear() {
     _orderDetails.clear();
-    _isDomicile.value = false;
     _address.value = "";
+    _orderType.value = "club";
   }
 
   void cancel() {
     _clear();
+  }
+
+  void addProductWithObservationToShopping(
+      MenuProduct product, List<MenuProduct> accompaniments) {
+    final orderDetail = OrderDetail(
+      id: product.id,
+      product: product,
+      quantity: 1,
+      observation: "Con ${accompaniments.map((e) => e.name).join(", ")}",
+    );
+    toggleOrderDetail(orderDetail);
   }
 }

@@ -1,3 +1,4 @@
+import 'package:club_valledupar_app/lib.dart';
 import 'package:flutter/material.dart';
 
 class ShoppingCartItem extends StatelessWidget {
@@ -7,7 +8,6 @@ class ShoppingCartItem extends StatelessWidget {
     required this.price,
     required this.quantity,
     required this.desc,
-    required this.image,
     this.onIncrease,
     this.onDecrease,
     this.onRemove,
@@ -17,115 +17,115 @@ class ShoppingCartItem extends StatelessWidget {
   final double price;
   final int quantity;
   final String desc;
-  final String image;
   final VoidCallback? onIncrease;
   final VoidCallback? onDecrease;
   final VoidCallback? onRemove;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 40.0),
-      child: Row(
-        children: [
-          Expanded(
-            flex: 2,
-            child: Container(
-              height: 170,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(image),
-                  fit: BoxFit.cover,
+    final textColor = Theme.of(context).colorScheme.onSecondary;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10.0),
+      child: BlurredContainer(
+        height: 220,
+        radius: 0,
+        width: double.infinity,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20.0,
+            vertical: 20.0,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                    onTap: onRemove,
+                    child: Icon(
+                      Icons.close,
+                      color: Theme.of(context).colorScheme.primary,
+                      size: 30.0,
+                    ),
+                  ),
+                ],
+              ),
+              Text(
+                title,
+                style: TextStyle(
+                  color: textColor,
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                maxLines: 1,
+              ),
+              Text(
+                desc,
+                style: TextStyle(
+                  color: textColor,
+                  fontSize: 14,
                 ),
               ),
-            ),
-          ),
-          const SizedBox(
-            width: 20.0,
-          ),
-          Expanded(
-            flex: 3,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    GestureDetector(
-                      onTap: onRemove,
-                      child: Icon(
-                        Icons.close,
+              const SizedBox(
+                height: 10.0,
+              ),
+              Text(
+                "\$ $price COP",
+                style: TextStyle(
+                  color: textColor,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(
+                height: 10.0,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: onDecrease,
+                    child: Container(
+                      padding: const EdgeInsets.all(5.0),
+                      decoration: BoxDecoration(
                         color: Theme.of(context).colorScheme.primary,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      child: Icon(
+                        Icons.remove,
+                        color: textColor,
                       ),
                     ),
-                  ],
-                ),
-                Text(
-                  title,
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSecondary,
-                    fontSize: 18,
                   ),
-                ),
-                Text(
-                  desc,
-                  style: const TextStyle(
-                    color: Colors.grey,
-                    fontSize: 14,
+                  Text(
+                    quantity.toString(),
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: textColor,
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 10.0,
-                ),
-                Text(
-                  "\$ $price COP",
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSecondary,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(
-                  height: 10.0,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                      onTap: onDecrease,
-                      child: Container(
-                        padding: const EdgeInsets.all(5.0),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.primary,
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: const Icon(Icons.remove),
+                  GestureDetector(
+                    onTap: onIncrease,
+                    child: Container(
+                      padding: const EdgeInsets.all(5.0),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.primary,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      child: Icon(
+                        Icons.add,
+                        color: textColor,
                       ),
                     ),
-                    Text(
-                      quantity.toString(),
-                      style: const TextStyle(fontSize: 18),
-                    ),
-                    GestureDetector(
-                      onTap: onIncrease,
-                      child: Container(
-                        padding: const EdgeInsets.all(5.0),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.primary,
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: const Icon(Icons.add),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+                  ),
+                ],
+              ),
+            ],
           ),
-          const SizedBox(
-            width: 30.0,
-          ),
-        ],
+        ),
       ),
     );
   }

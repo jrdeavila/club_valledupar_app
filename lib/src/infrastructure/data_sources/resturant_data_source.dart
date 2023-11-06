@@ -6,6 +6,8 @@ MenuSection menuSectionFromJson(JSON json) => MenuSection(
       id: json['id'].toString(),
       name: json['name'],
       description: json['description'],
+      isAccompaniment: json['is_accompaniment'],
+      accompanying: json['accompanying'],
       products: List<MenuProduct>.from(
         json['menu_items'].map((x) => menuProductFromJson(x)),
       ).toList(),

@@ -4,15 +4,21 @@ import 'package:get/get.dart';
 class ResturantController extends GetxController {
   final RxInt _currentIndex = 0.obs;
 
+  final RxList<MenuSection> _filteredMenuSections = <MenuSection>[].obs;
+  final RxList<MenuSection> _accompanimentSections = <MenuSection>[].obs;
   final RxList<MenuSection> _menuSections = <MenuSection>[].obs;
   final Rx<MenuSection?> _selectedSection = Rx<MenuSection?>(null);
+  final RxList<MenuProduct> _menuProducts = <MenuProduct>[].obs;
 
-  List<MenuSection> get menuSections => _menuSections;
+  List<MenuSection> get menuSections => _filteredMenuSections;
+  List<MenuProduct> get menuProducts => _menuProducts;
+  List<MenuSection> get accompanimentSections => _accompanimentSections;
   MenuSection? get selectedSection => _selectedSection.value;
   int get currentIndex => _currentIndex.value;
 
   void selectSection(MenuSection section) {
     _selectedSection.value = section;
+    _menuProducts.value = section.products.toList();
   }
 
   @override
@@ -25,8 +31,15 @@ class ResturantController extends GetxController {
     final fetchSectionsUseCase = getIt<FetchSectionsUseCase>();
     fetchSectionsUseCase.fetch().then((value) {
       _menuSections.value = value;
+      _filteredMenuSections.value = value;
       _selectedSection.value = value.first;
+      _accompanimentSections.value = _getOnlyAccompaniment(value);
+      _menuProducts.value = value.first.products.toList();
     });
+  }
+
+  List<MenuSection> _getOnlyAccompaniment(Iterable<MenuSection> sections) {
+    return sections.where((element) => element.isAccompaniment).toList();
   }
 
   void toggleShoppingCart() {
@@ -38,13 +51,24 @@ class ResturantController extends GetxController {
     return;
   }
 
-  void addProductToShopping(MenuProduct product) {
-    final shoppingCartController = Get.find<ShoppingCartController>();
-    final orderDetail = OrderDetail(
-      id: product.id,
-      product: product,
-      quantity: 1,
-    );
-    shoppingCartController.addOrderDetail(orderDetail);
+  void searchSection(String value) {
+    final filtered = _menuSections.where((element) {
+      final name = element.name.toLowerCase();
+      final description = element.description.toLowerCase();
+      final search = value.toLowerCase();
+      return name.contains(search) || description.contains(search);
+    }).toList();
+    _filteredMenuSections.value = filtered;
+  }
+
+  void searchProduct(String value) {
+    if (selectedSection == null) return;
+    final filtered = selectedSection!.products.where((element) {
+      final name = element.name.toLowerCase();
+      final description = element.description.toLowerCase();
+      final search = value.toLowerCase();
+      return name.contains(search) || description.contains(search);
+    }).toList();
+    _menuProducts.value = filtered;
   }
 }

@@ -1,4 +1,6 @@
+import 'package:club_valledupar_app/lib.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ProductCardItem extends StatelessWidget {
   const ProductCardItem({
@@ -7,118 +9,101 @@ class ProductCardItem extends StatelessWidget {
     required this.desc,
     required this.price,
     required this.image,
+    required this.selected,
     this.onTap,
   });
 
   final String title;
   final String desc;
   final double price;
-  final String image;
+  final String? image;
   final VoidCallback? onTap;
+  final bool selected;
 
   @override
   Widget build(BuildContext context) {
-    final textColor = Theme.of(context).colorScheme.onSecondary;
-    final bgColor = Theme.of(context).colorScheme.background;
-    return Stack(
-      children: [
-        Positioned.fill(
-          child: Container(
-            decoration: BoxDecoration(
-              color: bgColor,
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 5,
-                  offset: const Offset(0, 3),
-                ),
-              ],
-            ),
-            child: Column(
-              children: [
-                Expanded(
-                  flex: 3,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius:
-                          const BorderRadius.vertical(top: Radius.circular(20)),
-                      image: DecorationImage(
-                        image: NetworkImage(image),
-                        fit: BoxFit.cover,
-                      ),
+    final textColor = selected
+        ? Get.find<ColorPalete>().textOnSecondary
+        : Get.find<ColorPalete>().textOnPrimary;
+    final bgColor = selected
+        ? Get.find<ColorPalete>().componentColor
+        : Get.find<ColorPalete>().blurredChildColor;
+    final hasImage = image != null;
+    return GestureDetector(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: 300.milliseconds,
+        height: 200.0,
+        decoration: BoxDecoration(
+          color: bgColor,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Row(
+          children: [
+            hasImage
+                ? ClipRRect(
+                    borderRadius: const BorderRadius.horizontal(
+                      left: Radius.circular(20),
+                    ),
+                    child: CachingImage(
+                      fit: BoxFit.cover,
+                      url: image!,
+                      width: 150,
+                      height: 200,
+                    ),
+                  )
+                : SizedBox(
+                    width: 150,
+                    child: Center(
+                      child:
+                          Icon(Icons.fastfood, size: 100.0, color: textColor),
                     ),
                   ),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: TextStyle(
+                        color: textColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                      ),
+                      maxLines: 3,
+                    ),
+                    Text(
+                      desc,
+                      style: TextStyle(
+                        color: textColor,
+                        fontSize: 12,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      maxLines: 3,
+                    ),
+                    const Spacer(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text(
-                          title,
+                          "\$ $price COP",
                           style: TextStyle(
                             color: textColor,
                             fontWeight: FontWeight.bold,
-                            fontSize: 20,
+                            fontSize: 24,
                           ),
-                        ),
-                        Text(
-                          desc,
-                          style: TextStyle(
-                            color: textColor,
-                            fontSize: 15,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "\$$price",
-                              style: TextStyle(
-                                color: textColor,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                              ),
-                            ),
-                          ],
                         ),
                       ],
                     ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Positioned(
-          top: 10.0,
-          right: 11.0,
-          child: GestureDetector(
-            onTap: onTap,
-            child: Container(
-              padding: const EdgeInsets.all(5.0),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.onPrimary,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(
-                  color: Theme.of(context).colorScheme.primary,
-                  width: 2.0,
+                  ],
                 ),
               ),
-              child: Icon(
-                Icons.add,
-                color: Theme.of(context).colorScheme.primary,
-                size: 30.0,
-              ),
             ),
-          ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }

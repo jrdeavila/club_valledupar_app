@@ -7,6 +7,7 @@ class AppTxtField extends StatelessWidget {
     super.key,
     required this.hintText,
     this.prefixIcon,
+    this.suffixIcon,
     this.isPassword = false,
     this.initialValue,
     this.onChange,
@@ -18,7 +19,8 @@ class AppTxtField extends StatelessWidget {
   });
 
   final String hintText;
-  final Icon? prefixIcon;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
   final bool isPassword;
   final String? initialValue;
   final Function(String)? onChange;
@@ -55,6 +57,7 @@ class AppTxtField extends StatelessWidget {
         hintText: hintText,
         hintStyle: TextStyle(color: textColor),
         prefixIcon: prefixIcon,
+        suffixIcon: suffixIcon,
         errorText: errors?.isEmpty ?? true ? null : errors?.join('\n'),
       ),
     );
