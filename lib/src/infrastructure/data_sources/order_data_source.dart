@@ -16,6 +16,7 @@ OrderDetail orderDetailFromJson(JSON json) => OrderDetail(
       id: json['id'].toString(),
       product: menuProductFromJson(json['product']),
       quantity: json['quantity'],
+      observation: json['observation'],
     );
 
 JSON orderToJson(Order order) => {
@@ -33,6 +34,7 @@ JSON orderDetailToJson(OrderDetail orderDetail) => {
       'id': orderDetail.id,
       'product': orderDetail.product.id,
       'quantity': orderDetail.quantity,
+      'observation': orderDetail.observation,
     };
 
 List<Order> orderListFromJson(List json) => List<Order>.from(

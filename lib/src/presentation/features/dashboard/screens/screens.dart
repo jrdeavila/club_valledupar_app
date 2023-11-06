@@ -1,6 +1,7 @@
 export 'create_reservation_screen.dart';
 export 'dashboard_screen.dart';
 export 'menu_tag_item.dart';
+export 'order_details_screen.dart';
 export 'order_screen.dart';
 export 'reservation_card.dart';
 export 'reservation_details_card.dart';

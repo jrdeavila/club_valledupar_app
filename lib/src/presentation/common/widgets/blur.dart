@@ -12,8 +12,8 @@ class BlurredContainer extends StatelessWidget {
   const BlurredContainer({
     super.key,
     this.child,
-    required this.height,
-    required this.width,
+    this.height = double.infinity,
+    this.width = double.infinity,
     this.radius = 20.0,
   });
 

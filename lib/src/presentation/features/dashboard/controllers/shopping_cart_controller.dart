@@ -2,11 +2,6 @@ import 'package:club_valledupar_app/lib.dart';
 import 'package:get/get.dart';
 
 class ShoppingCartController extends GetxController {
-  final radioOptions = {
-    "domicilio": "Domicilio",
-    "club": "Interno (Club)",
-    "reservacion": "Reservación",
-  };
   final RxList<OrderDetail> _orderDetails = <OrderDetail>[].obs;
   final RxString _orderType = "club".obs;
   final RxString _address = "".obs;

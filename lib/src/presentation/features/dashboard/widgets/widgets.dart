@@ -1,4 +1,3 @@
-export 'bottom_bar.dart';
 export 'clock_time_card.dart';
 export 'concret_order.dart';
 export 'dashboard_card.dart';

@@ -12,51 +12,34 @@ class OrderScreen extends GetView<OrderController> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Column(
-            children: [
-              Expanded(
-                flex: 1,
-                child: Container(color: Theme.of(context).colorScheme.primary),
+          const DecoratedBox(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/img/pedidos.jpg"),
+                fit: BoxFit.cover,
               ),
-              Expanded(
-                flex: 3,
-                child:
-                    Container(color: Theme.of(context).colorScheme.onPrimary),
-              ),
-            ],
+            ),
           ),
+          const BlurredContainer(),
           Obx(() => CustomScrollView(
                 slivers: [
-                  SliverAppBar(
-                    floating: true,
-                    toolbarHeight: 120,
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    leadingWidth: 76.0,
-                    leading: GestureDetector(
-                      onTap: () => Get.back(),
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        color: Theme.of(context).colorScheme.onPrimary,
-                        size: 30.0,
-                      ),
+                  SliverAppBar.large(
+                    leading: BackButton(
+                      color: Get.find<ColorPalete>().textOnPrimary,
+                      onPressed: () {
+                        Get.back();
+                      },
                     ),
-                    title: const Text("Tus Pedidos"),
+                    title: const Text(
+                      "Mis Pedidos",
+                    ),
                     titleTextStyle: TextStyle(
-                      color: Theme.of(context).colorScheme.onPrimary,
-                      fontSize: 24.0,
+                      color: Get.find<ColorPalete>().textOnPrimary,
+                      fontSize: 30.0,
                       fontWeight: FontWeight.bold,
+                      fontFamily: "Poppins",
                     ),
-                    actions: const [
-                      Padding(
-                        padding: EdgeInsets.only(
-                          top: 8.0,
-                          right: 16.0,
-                        ),
-                        child: UserAccountTag(
-                          isSmall: true,
-                        ),
-                      ),
-                    ],
+                    centerTitle: true,
                   ),
                   SliverPadding(
                     padding: const EdgeInsets.all(16.0),
@@ -64,17 +47,17 @@ class OrderScreen extends GetView<OrderController> {
                       delegate: SliverChildBuilderDelegate(
                         (context, index) {
                           final order = controller.orders[index];
-                          return OrderCardItem(
-                            title: "Orden #${order.id}",
-                            state: order.status,
-                            isCancelable: order.status == "pendiente",
-                            date: controller.formatDate(order.createdAt!),
-                            total: order.total,
-                            image: order.details.first.product.image ??
-                                "https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found.jpg",
-                            onCancel: () {
-                              controller.cancelOrder(order);
+                          return GestureDetector(
+                            onTap: () {
+                              controller.showOrderDetails(order);
                             },
+                            child: OrderCardItem(
+                              state: order.status,
+                              type: order.type,
+                              date:
+                                  "Reservado ${controller.formatDate(order.createdAt!)}",
+                              total: order.total,
+                            ),
                           );
                         },
                         childCount: controller.orders.length,

@@ -3,8 +3,10 @@ import 'package:get/get.dart';
 
 class OrderController extends GetxController {
   final RxList<Order> _orders = <Order>[].obs;
+  final Rx<Order?> _selectedOrder = Rx<Order?>(null);
 
   List<Order> get orders => _orders;
+  Order get selectedOrder => _selectedOrder.value!;
 
   @override
   void onReady() {
@@ -23,6 +25,7 @@ class OrderController extends GetxController {
   void cancelOrder(Order order) {
     final cancelOrderUseCase = getIt<CancelOrderUseCase>();
     cancelOrderUseCase.cancel(order).then((value) {
+      _selectedOrder.value = value;
       final index = _orders.indexWhere((element) => element.id == value.id);
       _orders[index] = value;
       _orders.refresh();
@@ -33,5 +36,10 @@ class OrderController extends GetxController {
     var timeFormatService = getIt<TimeFormatService>();
     final datetime = timeFormatService.parseTime(date);
     return timeFormatService.formatTime(datetime);
+  }
+
+  void showOrderDetails(Order order) {
+    _selectedOrder.value = order;
+    Get.to(() => const OrderDetailsScreen());
   }
 }

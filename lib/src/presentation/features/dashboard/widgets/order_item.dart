@@ -1,157 +1,77 @@
+import 'package:club_valledupar_app/lib.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class OrderCardItem extends StatelessWidget {
   const OrderCardItem({
     super.key,
-    required this.title,
     required this.state,
+    required this.type,
     required this.date,
     required this.total,
-    required this.image,
-    this.onCancel,
-    this.isCancelable = false,
   });
 
-  final String title;
   final String state;
+  final String type;
   final String date;
   final double total;
-  final String image;
-  final VoidCallback? onCancel;
-  final bool isCancelable;
 
   @override
   Widget build(BuildContext context) {
-    final textColor = Theme.of(context).colorScheme.onSecondary;
+    final textColor = Get.find<ColorPalete>().textOnSecondary;
+    final bgColor = Get.find<ColorPalete>().componentColor;
     return Container(
       height: 200,
       width: double.infinity,
       margin: const EdgeInsets.only(bottom: 20),
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.background,
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 10,
-              offset: const Offset(0, 0),
-            ),
-          ]),
+        color: bgColor,
+        borderRadius: BorderRadius.circular(20),
+      ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                height: 120,
-                width: 120,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  image: DecorationImage(
-                    image: NetworkImage(image),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 20),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          title,
-                          style: TextStyle(
-                            color: textColor,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const Spacer(),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      date,
-                      style: TextStyle(
-                        color: textColor,
-                        fontSize: 18,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+          Text(
+            typeLabels[type]!.toUpperCase(),
+            style: TextStyle(
+              color: textColor,
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Text(
+            stateLabels[state]!.toUpperCase(),
+            style: TextStyle(
+              color: textColor,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const Divider(),
+          const SizedBox(height: 10),
+          Text(
+            date,
+            style: TextStyle(
+              color: textColor,
+              fontSize: 14,
+            ),
           ),
           const Spacer(),
           Row(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
-                "Costo \$ ${total.toStringAsFixed(2)}",
+                "Total \$ ${total.toStringAsFixed(2)}",
                 style: TextStyle(
                   color: textColor,
-                  fontSize: 18,
+                  fontSize: 25,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const Spacer(),
-              _buildStateTag(context),
             ],
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildStateTag(BuildContext context) {
-    var bgColor = BoxDecoration(
-      color: isCancelable
-          ? Theme.of(context).colorScheme.error
-          : Theme.of(context).colorScheme.primary,
-      borderRadius: BorderRadius.circular(20),
-    );
-    var textColor = isCancelable
-        ? Theme.of(context).colorScheme.onError
-        : Theme.of(context).colorScheme.onPrimary;
-    return GestureDetector(
-      onTap: isCancelable ? onCancel : null,
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 8,
-        ),
-        decoration: bgColor,
-        child: Row(
-          children: [
-            if (!isCancelable) ...[
-              Text(
-                state.toUpperCase(),
-                style: TextStyle(
-                  color: textColor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
-            ],
-            if (isCancelable) ...[
-              Icon(
-                Icons.cancel,
-                color: textColor,
-              ),
-              const SizedBox(width: 5),
-              Text(
-                "CANCELAR",
-                style: TextStyle(
-                  color: textColor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
-            ]
-          ],
-        ),
       ),
     );
   }

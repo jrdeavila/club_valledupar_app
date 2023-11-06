@@ -77,7 +77,7 @@ class ConcretOrderDialogContent extends GetView<ShoppingCartController> {
                           color: textColor,
                         ),
                       ),
-                      ...controller.radioOptions.entries.map((e) => Row(
+                      ...typeLabels.entries.map((e) => Row(
                             children: [
                               Radio(
                                   value: controller.orderType,

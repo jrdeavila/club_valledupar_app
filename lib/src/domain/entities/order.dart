@@ -51,3 +51,17 @@ class OrderDetail {
     }
   }
 }
+
+final typeLabels = {
+  "domicilio": "Domicilio",
+  "club": "Interno (Club)",
+  "reservacion": "Reservación",
+};
+
+final stateLabels = {
+  "pendiente": "Pendiente",
+  "cancelado": "Cancelado",
+  "entregado": "Entregado",
+  "enviado": "Enviado",
+  "comandado": "Comandado",
+};
