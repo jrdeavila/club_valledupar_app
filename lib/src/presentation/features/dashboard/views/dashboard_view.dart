@@ -56,7 +56,7 @@ class DashboardView extends GetView<DashboardController> {
             const _DashboardSectionDesc(
               title: "Restaurante y Pedidos",
               desc: "Echa un vistazo a nuestros servicios internos",
-              icon: Icons.swap_horiz,
+              icon: Icons.restaurant,
             ),
             SliverToBoxAdapter(
               child: SizedBox(
@@ -95,10 +95,28 @@ class DashboardView extends GetView<DashboardController> {
             SliverToBoxAdapter(
               child: DashboardCard(
                 image: "assets/img/reservation.jpg",
-                title: "Mira tus reservas",
-                color: const Color(0xfff7edff),
+                title: "Mis Reservaciones",
                 onTap: () {
                   controller.goToReservations();
+                },
+              ),
+            ),
+            const SliverToBoxAdapter(
+              child: Divider(),
+            ),
+            const _DashboardSectionDesc(
+              title: "Documentación y trámites",
+              desc:
+                  "Solicita los documentos que necesites para realizar tus trámites",
+              icon: Icons.description_outlined,
+            ),
+            SliverToBoxAdapter(
+              child: DashboardCard(
+                image: "assets/img/documents.jpg",
+                title: "Ver mis solicitudes",
+                color: const Color(0xfff7edff),
+                onTap: () {
+                  controller.goToDocuments();
                 },
               ),
             )

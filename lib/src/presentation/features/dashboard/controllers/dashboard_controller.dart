@@ -18,4 +18,8 @@ class DashboardController extends GetxController {
     // TODO: Implementar ruta de perfil
     // Get.toNamed(profileRoute);
   }
+
+  void goToDocuments() {
+    Get.toNamed(documentRoute);
+  }
 }

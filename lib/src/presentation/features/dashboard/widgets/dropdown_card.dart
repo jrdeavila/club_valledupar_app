@@ -178,3 +178,37 @@ class DropDownCardModalItem extends StatelessWidget {
     );
   }
 }
+
+class DropDownCardModalItemSkeleton extends StatelessWidget {
+  const DropDownCardModalItemSkeleton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+      width: double.infinity,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: Get.find<ColorPalete>()
+            .componentColor, // Color de marcador de posición
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 100, // Ancho de marcador de posición para el título
+            height: 20,
+            color: Get.find<ColorPalete>().componentColor,
+          ),
+          const SizedBox(height: 5), // Espacio entre título y descripción
+          Container(
+            width: 200, // Ancho de marcador de posición para la descripción
+            height: 14,
+            color: Get.find<ColorPalete>().componentColor,
+          ),
+        ],
+      ),
+    );
+  }
+}
