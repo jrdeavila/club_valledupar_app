@@ -8,6 +8,7 @@ const orderRoute = '/order';
 const reservationRoute = '/reservation';
 const createReservationRoute = '/create-reservation';
 const documentRoute = '/document';
+const profile = '/profile';
 
 final dashboardPages = [
   GetPage(
@@ -39,5 +40,9 @@ final dashboardPages = [
     name: documentRoute,
     page: () => const DocumentScreen(),
     binding: DocumentBindings(),
+  ),
+  GetPage(
+    name: profile,
+    page: () => const ProfileScreen(),
   ),
 ];

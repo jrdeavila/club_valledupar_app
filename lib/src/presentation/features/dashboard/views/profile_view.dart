@@ -27,41 +27,6 @@ class ProfileView extends GetView<SessionController> {
             ],
           ),
         ),
-        Align(
-          alignment: const FractionalOffset(
-            0.5,
-            0.2,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                height: 100,
-                width: 100,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.secondary,
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                child: Icon(
-                  Icons.person,
-                  color: Theme.of(context).colorScheme.onSecondary,
-                  size: 50,
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Text(
-                "${controller.partner?.name}",
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSecondary,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                ),
-              ),
-            ],
-          ),
-        ),
         Positioned.fill(
           top: MediaQuery.of(context).size.height * 0.3,
           child: Column(
