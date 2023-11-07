@@ -44,3 +44,22 @@ class GetPartnerUseCase {
     return _partnerAuthenticationService.getPartner();
   }
 }
+
+@injectable
+class ChangePasswordUseCase {
+  final ChangePasswordService _changePasswordService;
+
+  const ChangePasswordUseCase(this._changePasswordService);
+
+  Future<void> changePassword({
+    required String oldPassword,
+    required String newPassword,
+    required String confirmPassword,
+  }) async {
+    return _changePasswordService.changePassword(
+      oldPassword: oldPassword,
+      newPassword: newPassword,
+      confirmPassword: confirmPassword,
+    );
+  }
+}

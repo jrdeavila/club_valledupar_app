@@ -44,4 +44,8 @@ class SessionController extends GetxController {
       _partner.value = null;
     });
   }
+
+  void goToChangePassword() {
+    Get.toNamed(changePasswordRoute);
+  }
 }

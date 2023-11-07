@@ -71,8 +71,17 @@ class ProfileScreen extends GetView<SessionController> {
                 ),
                 children: [
                   ProfileItem(
+                    title: "Cambiar contraseña",
+                    subtitle: "Configura la contraseña de tu cuenta",
+                    icon: Icons.lock,
+                    onTap: () {
+                      controller.goToChangePassword();
+                    },
+                  ),
+                  ProfileItem(
                     title: "Cerrar sesión",
                     subtitle: "Cerrar sesión de la aplicación",
+                    icon: Icons.logout,
                     onTap: () {
                       controller.onLogout();
                     },
@@ -170,40 +179,45 @@ class ProfileItem extends StatelessWidget {
     super.key,
     required this.title,
     required this.subtitle,
+    required this.icon,
     required this.onTap,
   });
 
   final String title;
   final String subtitle;
+  final IconData icon;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(20.0),
-      child: Material(
-        color: Colors.transparent,
-        child: ListTile(
-          tileColor: Get.find<ColorPalete>().componentColor,
-          leading: Icon(
-            Icons.logout,
-            color: Get.find<ColorPalete>().textOnSecondary,
-          ),
-          title: Text(
-            title,
-            style: TextStyle(
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10.0),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20.0),
+        child: Material(
+          color: Colors.transparent,
+          child: ListTile(
+            tileColor: Get.find<ColorPalete>().componentColor,
+            leading: Icon(
+              icon,
               color: Get.find<ColorPalete>().textOnSecondary,
-              fontWeight: FontWeight.bold,
             ),
-          ),
-          subtitle: Text(
-            subtitle,
-            style: TextStyle(
-              color: Get.find<ColorPalete>().textOnSecondary,
-              fontSize: 12.0,
+            title: Text(
+              title,
+              style: TextStyle(
+                color: Get.find<ColorPalete>().textOnSecondary,
+                fontWeight: FontWeight.bold,
+              ),
             ),
+            subtitle: Text(
+              subtitle,
+              style: TextStyle(
+                color: Get.find<ColorPalete>().textOnSecondary,
+                fontSize: 12.0,
+              ),
+            ),
+            onTap: onTap,
           ),
-          onTap: onTap,
         ),
       ),
     );
