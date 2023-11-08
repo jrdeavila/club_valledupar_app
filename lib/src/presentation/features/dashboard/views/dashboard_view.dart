@@ -50,6 +50,7 @@ class DashboardView extends GetView<DashboardController> {
                 ),
               ),
             ),
+            const SliverToBoxAdapter(child: AlertToPayCard()),
             const SliverToBoxAdapter(
               child: Divider(),
             ),
@@ -123,6 +124,69 @@ class DashboardView extends GetView<DashboardController> {
           ],
         ),
       ],
+    );
+  }
+}
+
+class AlertToPayCard extends GetView<SessionController> {
+  const AlertToPayCard({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() {
+      if (controller.partner?.state == 'I') {
+        return _buildCard();
+      }
+      return const SizedBox.shrink();
+    });
+  }
+
+  Container _buildCard() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Get.find<ColorPalete>().componentOnError,
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      padding: const EdgeInsets.all(20.0),
+      margin: const EdgeInsets.symmetric(
+        horizontal: 20.0,
+        vertical: 10.0,
+      ),
+      child: Row(
+        children: [
+          Icon(
+            Icons.warning_amber_rounded,
+            color: Get.find<ColorPalete>().textOnError,
+            size: 50.0,
+          ),
+          const SizedBox(width: 10.0),
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Ups! Algo anda mal con tu cuenta 😥",
+                  style: TextStyle(
+                    color: Get.find<ColorPalete>().textOnError,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  "Parece que no estas al dia con tus pagos, por favor ponte en contacto con nosotros para resolver este inconveniente.",
+                  style: TextStyle(
+                    color: Get.find<ColorPalete>().textOnError,
+                    fontSize: 15.0,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
