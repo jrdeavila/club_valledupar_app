@@ -28,7 +28,6 @@ class ShoppingCartItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10.0),
       child: Container(
-        height: 220,
         decoration: BoxDecoration(
           color: Get.find<ColorPalete>().componentColor,
           borderRadius: BorderRadius.circular(20),

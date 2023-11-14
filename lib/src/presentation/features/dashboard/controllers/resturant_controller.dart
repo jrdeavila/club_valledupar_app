@@ -71,4 +71,8 @@ class ResturantController extends GetxController {
     }).toList();
     _menuProducts.value = filtered;
   }
+
+  void showDetails(MenuProduct product) {
+    Get.to(() => ProductDetailsScreen(product: product));
+  }
 }

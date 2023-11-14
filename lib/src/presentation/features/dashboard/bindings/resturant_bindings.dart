@@ -6,5 +6,6 @@ class ResturantBindings extends Bindings {
   void dependencies() {
     Get.lazyPut(() => ResturantController());
     Get.lazyPut(() => ShoppingCartController());
+    Get.lazyPut(() => CreateOrderController());
   }
 }

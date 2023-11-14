@@ -4,7 +4,7 @@ import 'package:club_valledupar_app/lib.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ConcretOrderDialogContent extends GetView<ShoppingCartController> {
+class ConcretOrderDialogContent extends GetView<CreateOrderController> {
   const ConcretOrderDialogContent({
     super.key,
   });
@@ -117,7 +117,7 @@ class ConcretOrderDialogContent extends GetView<ShoppingCartController> {
                             ),
                           ),
                           Text(
-                            "\$ ${controller.total} COP",
+                            "\$ ${Get.find<ShoppingCartController>().total} COP",
                             style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.bold,

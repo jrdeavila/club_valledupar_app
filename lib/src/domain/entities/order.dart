@@ -25,7 +25,7 @@ class Order {
 class OrderDetail {
   final String id;
   final MenuProduct product;
-  final String? observation;
+  String? observation;
   int quantity;
 
   OrderDetail({
@@ -49,6 +49,10 @@ class OrderDetail {
     if (quantity > 0) {
       quantity--;
     }
+  }
+
+  void updateObservation(String s) {
+    observation = s;
   }
 }
 

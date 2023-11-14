@@ -1,3 +1,4 @@
+export 'accompaniment_modal.dart';
 export 'clock_time_card.dart';
 export 'concret_order.dart';
 export 'dashboard_card.dart';

@@ -156,7 +156,7 @@ class ResturantScreen extends GetView<ResturantController> {
                   children: [
                     TextButton(
                       onPressed: () {
-                        shoppingCartController.cancel();
+                        shoppingCartController.clear();
                       },
                       child: const Text(
                         "Cancelar",
