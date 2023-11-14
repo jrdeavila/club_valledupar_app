@@ -62,6 +62,6 @@ final stateLabels = {
   "pendiente": "Pendiente",
   "cancelado": "Cancelado",
   "entregado": "Entregado",
-  "enviado": "Enviado",
-  "comandado": "Comandado",
+  "enviado": "En Camino",
+  "comandado": "En Preparación",
 };
