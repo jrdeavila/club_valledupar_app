@@ -12,5 +12,6 @@ Partner partnerFromJson(JSON json) {
     statePartner: json['state_partner'],
     email: json['email'],
     phone: json['phone'],
+    firstLogin: json['first_login'],
   );
 }

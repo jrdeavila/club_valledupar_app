@@ -12,37 +12,49 @@ const profile = '/profile';
 
 final dashboardPages = [
   GetPage(
-    name: dashboardRoute,
-    page: () => const DashboardScreen(),
-    binding: DashboardBindings(),
-  ),
+      name: dashboardRoute,
+      page: () => const DashboardScreen(),
+      binding: DashboardBindings(),
+      middlewares: [
+        VerifyAuth(),
+        FirstLogin(),
+      ]),
   GetPage(
-    name: resturantRoute,
-    page: () => const ResturantScreen(),
-    binding: ResturantBindings(),
-  ),
+      name: resturantRoute,
+      page: () => const ResturantScreen(),
+      binding: ResturantBindings(),
+      middlewares: [
+        VerifyAuth(),
+      ]),
   GetPage(
-    name: orderRoute,
-    page: () => const OrderScreen(),
-    binding: OrderBindings(),
-  ),
+      name: orderRoute,
+      page: () => const OrderScreen(),
+      binding: OrderBindings(),
+      middlewares: [
+        VerifyAuth(),
+      ]),
   GetPage(
-    name: reservationRoute,
-    page: () => const ReservationScreen(),
-    binding: ReservationBindings(),
-  ),
+      name: reservationRoute,
+      page: () => const ReservationScreen(),
+      binding: ReservationBindings(),
+      middlewares: [
+        VerifyAuth(),
+      ]),
   GetPage(
-    name: createReservationRoute,
-    page: () => const CreateReservationScreen(),
-    binding: ReservationBindings(),
-  ),
+      name: createReservationRoute,
+      page: () => const CreateReservationScreen(),
+      binding: ReservationBindings(),
+      middlewares: [
+        VerifyAuth(),
+      ]),
   GetPage(
-    name: documentRoute,
-    page: () => const DocumentScreen(),
-    binding: DocumentBindings(),
-  ),
-  GetPage(
-    name: profile,
-    page: () => const ProfileScreen(),
-  ),
+      name: documentRoute,
+      page: () => const DocumentScreen(),
+      binding: DocumentBindings(),
+      middlewares: [
+        VerifyAuth(),
+      ]),
+  GetPage(name: profile, page: () => const ProfileScreen(), middlewares: [
+    VerifyAuth(),
+  ]),
 ];

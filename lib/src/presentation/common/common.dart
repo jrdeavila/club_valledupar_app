@@ -1,6 +1,7 @@
 export 'bindings/bindings.dart';
 export 'controllers/controllers.dart';
 export 'exception/exception.dart';
+export 'middlewares/middlewares.dart';
 export 'shared.dart';
 export 'theme/theme.dart';
 export 'transitions/transitions.dart';

@@ -29,6 +29,10 @@ class SessionController extends GetxController {
     });
   }
 
+  void onUpdateProfile(Partner partner) {
+    _partner.value = partner;
+  }
+
   void onLogin() {
     _getPartner();
   }

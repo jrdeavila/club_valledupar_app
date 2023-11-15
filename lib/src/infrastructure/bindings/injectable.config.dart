@@ -15,18 +15,19 @@ import 'package:injectable/injectable.dart' as _i2;
 import 'package:shared_preferences/shared_preferences.dart' as _i17;
 
 import '../../../lib.dart' as _i3;
-import '../../application/use_cases/authentication_use_cases.dart' as _i25;
-import '../../application/use_cases/request_document_use_cases.dart' as _i26;
-import '../../application/use_cases/reservation_use_cases.dart' as _i27;
-import '../../application/use_cases/resturant_use_cases.dart' as _i23;
+import '../../application/use_cases/authentication_use_cases.dart' as _i27;
+import '../../application/use_cases/profile_use_cases.dart' as _i22;
+import '../../application/use_cases/request_document_use_cases.dart' as _i28;
+import '../../application/use_cases/reservation_use_cases.dart' as _i29;
+import '../../application/use_cases/resturant_use_cases.dart' as _i25;
 import '../../domain/domain.dart' as _i13;
 import '../../presentation/features/authentication/controllers/authentication_controller.dart'
     as _i10;
 import '../../src.dart' as _i8;
-import '../cache/cache_service.dart' as _i22;
+import '../cache/cache_service.dart' as _i24;
 import '../http/banner/custom_banner_service.dart' as _i4;
 import '../http/cache/cache_token_repository.dart' as _i20;
-import '../http/cache/cache_validador_service.dart' as _i21;
+import '../http/cache/cache_validador_service.dart' as _i23;
 import '../http/dio/dio_client.dart' as _i7;
 import '../http/dio/exceptions.dart' as _i6;
 import '../http/dio/interceptors.dart' as _i19;
@@ -35,10 +36,11 @@ import '../repositories/http_document_repository.dart' as _i14;
 import '../repositories/http_order_repository.dart' as _i11;
 import '../repositories/http_reservation_repository.dart' as _i9;
 import '../repositories/http_resturant_repository.dart' as _i16;
-import '../services/http_change_password_service.dart' as _i24;
+import '../services/http_change_password_service.dart' as _i26;
 import '../services/http_partner_authentication_service.dart' as _i12;
+import '../services/http_update_profile_service.dart' as _i21;
 import '../timeago/settings.dart' as _i18;
-import 'dependencies.dart' as _i28;
+import 'dependencies.dart' as _i30;
 
 extension GetItInjectableX on _i1.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -80,44 +82,48 @@ extension GetItInjectableX on _i1.GetIt {
     gh.factory<_i8.TimeFormatService>(() => _i18.TimeAgoService());
     gh.factory<_i19.TokenInterceptor>(() => _i19.TokenInterceptor());
     gh.factory<_i3.TokenRepository>(() => _i20.CacheTokenRepository());
+    gh.factory<_i3.UpdateProfileService>(
+        () => _i21.HttpUpdateProfileService(gh<_i3.HttpClient>()));
+    gh.factory<_i22.UpdateProfileUseCase>(
+        () => _i22.UpdateProfileUseCase(gh<_i3.UpdateProfileService>()));
     gh.factory<_i19.ValidatorInterceptor>(() => _i19.ValidatorInterceptor());
-    gh.singleton<_i3.ValidatorService>(_i21.CacheValidatorService());
-    gh.lazySingleton<_i22.CacheService>(
-        () => _i22.CacheServiceImpl(gh<_i17.SharedPreferences>()));
-    gh.factory<_i23.CancelOrderUseCase>(
-        () => _i23.CancelOrderUseCase(gh<_i3.OrderRepository>()));
+    gh.singleton<_i3.ValidatorService>(_i23.CacheValidatorService());
+    gh.lazySingleton<_i24.CacheService>(
+        () => _i24.CacheServiceImpl(gh<_i17.SharedPreferences>()));
+    gh.factory<_i25.CancelOrderUseCase>(
+        () => _i25.CancelOrderUseCase(gh<_i3.OrderRepository>()));
     gh.factory<_i3.ChangePasswordService>(
-        () => _i24.HttpChangePasswordService(gh<_i3.HttpClient>()));
-    gh.factory<_i25.ChangePasswordUseCase>(
-        () => _i25.ChangePasswordUseCase(gh<_i3.ChangePasswordService>()));
-    gh.factory<_i26.ConsultAllDocumentTypesUseCase>(() =>
-        _i26.ConsultAllDocumentTypesUseCase(
+        () => _i26.HttpChangePasswordService(gh<_i3.HttpClient>()));
+    gh.factory<_i27.ChangePasswordUseCase>(
+        () => _i27.ChangePasswordUseCase(gh<_i3.ChangePasswordService>()));
+    gh.factory<_i28.ConsultAllDocumentTypesUseCase>(() =>
+        _i28.ConsultAllDocumentTypesUseCase(
             gh<_i13.RequestDocumentTypeRepository>()));
-    gh.factory<_i26.ConsultAllDocumentUseCase>(() =>
-        _i26.ConsultAllDocumentUseCase(gh<_i13.RequestDocumentRepository>()));
-    gh.factory<_i26.CreateDocumentUseCase>(
-        () => _i26.CreateDocumentUseCase(gh<_i13.RequestDocumentRepository>()));
-    gh.factory<_i23.CreateOrderUseCase>(
-        () => _i23.CreateOrderUseCase(gh<_i3.OrderRepository>()));
-    gh.factory<_i27.CreateReservationUseCase>(
-        () => _i27.CreateReservationUseCase(gh<_i13.ReservationRepository>()));
-    gh.factory<_i27.DeleteReservationUseCase>(
-        () => _i27.DeleteReservationUseCase(gh<_i13.ReservationRepository>()));
-    gh.factory<_i27.FetchInsumeAreasUseCase>(
-        () => _i27.FetchInsumeAreasUseCase(gh<_i13.InsumeAreaRepository>()));
-    gh.factory<_i23.FetchOrdersUseCase>(
-        () => _i23.FetchOrdersUseCase(gh<_i3.OrderRepository>()));
-    gh.factory<_i27.FetchReservationsUseCase>(
-        () => _i27.FetchReservationsUseCase(gh<_i13.ReservationRepository>()));
-    gh.factory<_i23.FetchSectionsUseCase>(
-        () => _i23.FetchSectionsUseCase(gh<_i3.RestaurantRepository>()));
-    gh.factory<_i25.GetPartnerUseCase>(
-        () => _i25.GetPartnerUseCase(gh<_i3.PartnerAuthenticationService>()));
-    gh.factory<_i25.LoginUseCase>(() => _i25.LoginUseCase(
+    gh.factory<_i28.ConsultAllDocumentUseCase>(() =>
+        _i28.ConsultAllDocumentUseCase(gh<_i13.RequestDocumentRepository>()));
+    gh.factory<_i28.CreateDocumentUseCase>(
+        () => _i28.CreateDocumentUseCase(gh<_i13.RequestDocumentRepository>()));
+    gh.factory<_i25.CreateOrderUseCase>(
+        () => _i25.CreateOrderUseCase(gh<_i3.OrderRepository>()));
+    gh.factory<_i29.CreateReservationUseCase>(
+        () => _i29.CreateReservationUseCase(gh<_i13.ReservationRepository>()));
+    gh.factory<_i29.DeleteReservationUseCase>(
+        () => _i29.DeleteReservationUseCase(gh<_i13.ReservationRepository>()));
+    gh.factory<_i29.FetchInsumeAreasUseCase>(
+        () => _i29.FetchInsumeAreasUseCase(gh<_i13.InsumeAreaRepository>()));
+    gh.factory<_i25.FetchOrdersUseCase>(
+        () => _i25.FetchOrdersUseCase(gh<_i3.OrderRepository>()));
+    gh.factory<_i29.FetchReservationsUseCase>(
+        () => _i29.FetchReservationsUseCase(gh<_i13.ReservationRepository>()));
+    gh.factory<_i25.FetchSectionsUseCase>(
+        () => _i25.FetchSectionsUseCase(gh<_i3.RestaurantRepository>()));
+    gh.factory<_i27.GetPartnerUseCase>(
+        () => _i27.GetPartnerUseCase(gh<_i3.PartnerAuthenticationService>()));
+    gh.factory<_i27.LoginUseCase>(() => _i27.LoginUseCase(
           gh<_i3.PartnerAuthenticationService>(),
           gh<_i3.TokenRepository>(),
         ));
-    gh.factory<_i25.LogoutUseCase>(() => _i25.LogoutUseCase(
+    gh.factory<_i27.LogoutUseCase>(() => _i27.LogoutUseCase(
           gh<_i3.PartnerAuthenticationService>(),
           gh<_i3.TokenRepository>(),
         ));
@@ -125,6 +131,6 @@ extension GetItInjectableX on _i1.GetIt {
   }
 }
 
-class _$DioModule extends _i28.DioModule {}
+class _$DioModule extends _i30.DioModule {}
 
-class _$SharedPreferencesModule extends _i28.SharedPreferencesModule {}
+class _$SharedPreferencesModule extends _i30.SharedPreferencesModule {}

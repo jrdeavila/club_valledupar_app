@@ -9,6 +9,7 @@ class Partner {
   final String state;
   final String statePartner;
   final String action;
+  final bool firstLogin;
 
   Partner({
     required this.id,
@@ -21,5 +22,6 @@ class Partner {
     required this.name,
     required this.state,
     required this.statePartner,
+    required this.firstLogin,
   });
 }

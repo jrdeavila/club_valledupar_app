@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
       getPages: [
         ...authPages,
         ...dashboardPages,
+        ...profilePages,
       ],
       initialRoute: loginRoute,
       initialBinding: AppBindings(),
