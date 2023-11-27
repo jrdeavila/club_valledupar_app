@@ -62,7 +62,7 @@ class OrderCardItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
-                "Total \$ ${total.toStringAsFixed(2)}",
+                "Total \$ ${currencyFormat(total)}",
                 style: TextStyle(
                   color: textColor,
                   fontSize: 25,

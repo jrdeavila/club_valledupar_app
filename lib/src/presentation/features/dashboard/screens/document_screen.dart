@@ -114,7 +114,7 @@ class ModalDocumentTypes extends GetView<DocumentController> {
                           },
                           child: DropDownCardModalItem(
                             title: option.name,
-                            desc: option.name,
+                            desc: option.description,
                           ),
                         );
                       },

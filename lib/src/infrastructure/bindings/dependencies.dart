@@ -3,14 +3,18 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+const domain = 'http://192.168.42.30';
+
 @module
 abstract class DioModule {
   @lazySingleton
-  Dio get dio => Dio(BaseOptions(
-        baseUrl: "http://192.168.0.19/api",
-        followRedirects: false,
-      ))
-        ..interceptors.addAll(interceptors);
+  Dio get dio {
+    return Dio(BaseOptions(
+      baseUrl: "$domain/api",
+      followRedirects: false,
+    ))
+      ..interceptors.addAll(interceptors);
+  }
 
   List<Interceptor> get interceptors => [
         ValidatorInterceptor(),

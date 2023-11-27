@@ -63,3 +63,14 @@ class ChangePasswordUseCase {
     );
   }
 }
+
+@injectable
+class ResetPasswordUseCase {
+  final ResetPasswordService _resetPasswordService;
+
+  const ResetPasswordUseCase(this._resetPasswordService);
+
+  Future<void> resetPassword() async {
+    return _resetPasswordService.resetPassword();
+  }
+}

@@ -7,3 +7,7 @@ abstract class PartnerAuthenticationService {
 
   Future<Partner> getPartner();
 }
+
+abstract class ResetPasswordService {
+  Future<void> resetPassword();
+}

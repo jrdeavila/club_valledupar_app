@@ -52,4 +52,8 @@ class SessionController extends GetxController {
   void goToChangePassword() {
     Get.toNamed(changePasswordRoute);
   }
+
+  void resetPassword() {
+    getIt<ResetPasswordUseCase>().resetPassword();
+  }
 }

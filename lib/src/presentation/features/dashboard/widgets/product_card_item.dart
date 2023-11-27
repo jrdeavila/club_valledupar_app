@@ -88,7 +88,7 @@ class ProductCardItem extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text(
-                          "\$ $price COP",
+                          "\$ ${currencyFormat(price)}",
                           style: TextStyle(
                             color: textColor,
                             fontWeight: FontWeight.bold,

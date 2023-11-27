@@ -82,9 +82,10 @@ class UpdateProfileScreen extends GetView<UpdateProfileController> {
                       height: 10,
                     ),
                     LoginTextField(
-                      label: "Dirección",
+                      label: "Dirección y Ciudad de Residecia",
                       onChanged: controller.setAddress,
                       controller: addressCtrl,
+                      helpText: "Ej: Calle 12 # 12 - 12, Valledupar",
                     ),
                   ]),
                 ),

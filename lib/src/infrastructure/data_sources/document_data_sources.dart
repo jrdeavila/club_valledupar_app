@@ -22,5 +22,6 @@ DocumentType documentTypeFromJSON(JSON json) {
   return DocumentType(
     id: json["id"],
     name: json["name"],
+    description: json["description"],
   );
 }

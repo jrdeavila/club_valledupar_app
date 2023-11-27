@@ -63,7 +63,9 @@ class LoginScreen extends GetView<LoginCtrl> {
                       height: 10,
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Get.find<SessionController>().resetPassword();
+                      },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(

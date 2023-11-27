@@ -68,6 +68,10 @@ class _LoginTextFieldState extends State<LoginTextField> {
           fontWeight: FontWeight.bold,
         ),
         helperText: widget.helpText,
+        helperStyle: TextStyle(
+          color: textColor,
+          fontWeight: FontWeight.bold,
+        ),
         helperMaxLines: 3,
         fillColor: backgroundColor,
         filled: true,

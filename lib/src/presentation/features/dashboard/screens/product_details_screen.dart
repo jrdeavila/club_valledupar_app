@@ -95,7 +95,7 @@ class ProductDetailsScreen extends GetView<ShoppingCartController> {
                         height: 10,
                       ),
                       Text(
-                        "\$${product.price}",
+                        "\$ ${currencyFormat(product.price)}",
                         style: TextStyle(
                           color: Get.find<ColorPalete>().textOnSecondary,
                           fontWeight: FontWeight.bold,
