@@ -117,7 +117,7 @@ class ConcretOrderDialogContent extends GetView<CreateOrderController> {
                             ),
                           ),
                           Text(
-                            "\$ ${Get.find<ShoppingCartController>().total} COP",
+                            "\$ ${currencyFormat(Get.find<ShoppingCartController>().total)}",
                             style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.bold,

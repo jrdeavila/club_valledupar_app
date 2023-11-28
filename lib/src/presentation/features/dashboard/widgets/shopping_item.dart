@@ -75,7 +75,7 @@ class ShoppingCartItem extends StatelessWidget {
                 height: 10.0,
               ),
               Text(
-                "\$ $price COP",
+                "\$ ${currencyFormat(price)}",
                 style: TextStyle(
                   color: textColor,
                   fontSize: 18,

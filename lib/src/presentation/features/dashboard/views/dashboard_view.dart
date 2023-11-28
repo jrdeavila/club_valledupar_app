@@ -60,28 +60,24 @@ class DashboardView extends GetView<DashboardController> {
               icon: Icons.restaurant,
             ),
             SliverToBoxAdapter(
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: 400,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    DashboardCard(
-                      image: "assets/img/delivery.jpg",
-                      title: "Revisa tus pedidos",
-                      onTap: () {
-                        controller.goToOrders();
-                      },
-                    ),
-                    DashboardCard(
-                      image: "assets/img/waiter.jpg",
-                      title: "Ordena desde cualquier lugar",
-                      onTap: () {
-                        controller.goToMenu();
-                      },
-                    ),
-                  ],
-                ),
+              child: DashboardCard(
+                image: "assets/img/waiter.jpg",
+                title: "Ordena desde cualquier lugar",
+                onTap: () {
+                  controller.goToMenu();
+                },
+              ),
+            ),
+            const SliverToBoxAdapter(
+              child: Divider(),
+            ),
+            SliverToBoxAdapter(
+              child: DashboardCard(
+                image: "assets/img/delivery.jpg",
+                title: "Revisa tus pedidos",
+                onTap: () {
+                  controller.goToOrders();
+                },
               ),
             ),
             const SliverToBoxAdapter(

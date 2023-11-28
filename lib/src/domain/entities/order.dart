@@ -58,7 +58,7 @@ class OrderDetail {
 
 final typeLabels = {
   "domicilio": "Domicilio",
-  "club": "Interno (Club)",
+  "club": "Restaurante (Club)",
   "reservacion": "Reservación",
 };
 

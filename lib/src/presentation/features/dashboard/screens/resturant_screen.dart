@@ -140,7 +140,7 @@ class ResturantScreen extends GetView<ResturantController> {
                     ),
                     const Spacer(),
                     Text(
-                      "\$ ${shoppingCartController.total} COP",
+                      "\$ ${currencyFormat(shoppingCartController.total)}",
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,

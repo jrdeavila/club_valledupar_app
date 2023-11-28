@@ -23,18 +23,6 @@ class UpdateProfileController extends GetxController {
 
   // ---------------------------------------------------------------------------
 
-  @override
-  void onReady() {
-    super.onReady();
-
-    _name.value = Get.find<SessionController>().partner?.name ?? "";
-    _email.value = Get.find<SessionController>().partner?.email ?? "";
-    _phone.value = Get.find<SessionController>().partner?.phone ?? "";
-    _address.value = Get.find<SessionController>().partner?.address ?? "";
-  }
-
-  // ---------------------------------------------------------------------------
-
   void updateProfile() async {
     final useCase = getIt<UpdateProfileUseCase>();
 

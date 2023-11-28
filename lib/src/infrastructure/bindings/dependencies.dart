@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const domain = 'http://192.168.42.30';
+const domain = 'http://20.106.213.152';
 
 @module
 abstract class DioModule {
